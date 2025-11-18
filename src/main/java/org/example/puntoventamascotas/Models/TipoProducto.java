@@ -5,19 +5,19 @@ public class TipoProducto {
     private int idTipoProducto;
     private String nombreTipoProducto;
     private String descripcion;
-    private Area area;
-    private CategoriaProducto categoriaProducto;
+    private int idArea;
+    private int idCategoriaProducto;
 
     //constructor vacio
     public TipoProducto(){}
 
     //constructor con parametros
-    public TipoProducto(int idTipoProducto, String nombreTipoProducto, String descripcion, Area area, CategoriaProducto categoriaProducto) {
+    public TipoProducto(int idTipoProducto, String nombreTipoProducto, String descripcion, int idArea, int idCategoriaProducto) {
         this.idTipoProducto = idTipoProducto;
         this.nombreTipoProducto = nombreTipoProducto;
         this.descripcion = descripcion;
-        this.area = area;
-        this.categoriaProducto = categoriaProducto;
+        this.idArea = idArea;
+        this.idCategoriaProducto = idCategoriaProducto;
     }
 
     //GETTERS Y SETTERS
@@ -50,21 +50,21 @@ public class TipoProducto {
     }
 
     //get y set del objeto de area
-    public Area getArea() {
-        return area;
+    public int getArea() {
+        return idArea;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    public void setArea(int idArea) {
+        this.idArea = idArea;
     }
 
     //get y set del objeto de categoria del producto
-    public CategoriaProducto getCategoriaProducto() {
-        return categoriaProducto;
+    public int getCategoriaProducto() {
+        return idCategoriaProducto;
     }
 
-    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
-        this.categoriaProducto = categoriaProducto;
+    public void setCategoriaProducto(int idCategoriaProducto) {
+        this.idCategoriaProducto = idCategoriaProducto;
     }
 
     //metodo toString
@@ -74,8 +74,8 @@ public class TipoProducto {
                 "idTipoProducto=" + idTipoProducto +
                 ", nombreTipoProducto='" + nombreTipoProducto + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", area=" + area +
-                ", categoriaProducto=" + categoriaProducto +
+                ", area=" + idArea +
+                ", categoriaProducto=" + idCategoriaProducto +
                 '}';
     }
 }

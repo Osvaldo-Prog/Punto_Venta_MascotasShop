@@ -7,17 +7,17 @@ public class TipoMascota {
     private int idTipoMascota;
     private String nombreTipoMascota;
     private String descripcion;
-    private Area area;
+    private int idArea;
 
     //constructor vacio
     public TipoMascota(){}
 
     //constrcutor con parametros
-    public TipoMascota(int idTipoMascota,  String nombreTipoMascota, String descripcion, Area area){
+    public TipoMascota(int idTipoMascota,  String nombreTipoMascota, String descripcion, int idArea){
         this.idTipoMascota = idTipoMascota;
         this.nombreTipoMascota = nombreTipoMascota;
         this.descripcion = descripcion;
-        this.area = area;
+        this.idArea = idArea;
     }
 
     //GETTERS Y SETTERS
@@ -50,12 +50,12 @@ public class TipoMascota {
     }
 
     //get y set del objeto de area
-    public Area getArea() {
-        return area;
+    public int getArea() {
+        return idArea;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    public void setArea(int idArea) {
+        this.idArea = idArea;
     }
 
     //metodo toString
@@ -65,7 +65,7 @@ public class TipoMascota {
                 "idTipoMascota=" + idTipoMascota +
                 ", nombreTipoMascota='" + nombreTipoMascota + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", area=" + area +
+                ", area=" + idArea +
                 '}';
     }
 }

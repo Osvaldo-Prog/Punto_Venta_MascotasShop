@@ -2,7 +2,7 @@ package org.example.puntoventamascotas.Models;
 
 public class Carrito {
     //inicializacion de atributos/variables
-    private Usuario usuario;
+    private int idUsuario;
     private int idCarrito;
     private String fechaCreacion;
     private boolean estado;
@@ -11,8 +11,8 @@ public class Carrito {
     public Carrito(){}
 
     //constructor con parametros
-    public Carrito(Usuario usuario, int idCarrito, String fechaCreacion,  boolean estado) {
-        this.usuario = usuario;
+    public Carrito(int idUsuario, int idCarrito, String fechaCreacion,  boolean estado) {
+        this.idUsuario = idUsuario;
         this.idCarrito = idCarrito;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
@@ -21,12 +21,12 @@ public class Carrito {
     //Getters y setters
 
     //get y set del objeto de usuario
-    public Usuario getUsuario() {
-        return usuario;
+    public int getUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     //get y set del id del carrito
@@ -60,7 +60,7 @@ public class Carrito {
     @Override
     public String toString() {
         return "Carrito{" +
-                "usuario=" + usuario +
+                "usuario=" + idUsuario +
                 ", idCarrito=" + idCarrito +
                 ", fechaCreacion='" + fechaCreacion + '\'' +
                 ", estado=" + estado +

@@ -7,18 +7,18 @@ public class Mascota {
     private String nombreMascota;
     private String descripcionMascota;
     private String cuidados;
-    private TipoMascota tipoMascota;
+    private int idTipoMascota;
 
     //constructor vacio
     public Mascota(){}
 
     //constructor con para.
-    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, TipoMascota tipoMascota) {
+    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, int idTipoMascota) {
         this.idMascota = idMascota;
         this.nombreMascota = nombreMascota;
         this.descripcionMascota = descripcionMascota;
         this.cuidados = cuidados;
-        this.tipoMascota = tipoMascota;
+        this.idTipoMascota = idTipoMascota;
     }
 
     //GETTERS Y SETTERS
@@ -60,12 +60,12 @@ public class Mascota {
     }
 
     //get y set del objeto de tipo de mascota
-    public TipoMascota getTipoMascota() {
-        return tipoMascota;
+    public int getTipoMascota() {
+        return idTipoMascota;
     }
 
-    public void setTipoMascota(TipoMascota tipoMascota) {
-        this.tipoMascota = tipoMascota;
+    public void setTipoMascota(int idTipoMascota) {
+        this.idTipoMascota = idTipoMascota;
     }
 
     //metodo toString
@@ -76,7 +76,7 @@ public class Mascota {
                 ", nombreMascota='" + nombreMascota + '\'' +
                 ", descripcionMascota='" + descripcionMascota + '\'' +
                 ", cuidados='" + cuidados + '\'' +
-                ", tipoMascota=" + tipoMascota +
+                ", tipoMascota=" + idTipoMascota +
                 '}';
     }
 }

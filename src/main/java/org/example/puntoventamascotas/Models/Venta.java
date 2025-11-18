@@ -2,8 +2,8 @@ package org.example.puntoventamascotas.Models;
 
 public class Venta {
     //inicialiacion de atributos/variables
-    private Usuario usuario;
-    private MetodoPago metodoPago;
+    private int idUsuario;
+    private int idMetodoPago;
     private int idVenta;
     private String fechaVenta;
     private double total;
@@ -12,9 +12,9 @@ public class Venta {
     public Venta(){}
 
     //constructor con param.
-    public Venta(Usuario usuario, MetodoPago metodoPago, int idVenta, String fechaVenta, double total) {
-        this.usuario = usuario;
-        this.metodoPago = metodoPago;
+    public Venta(int idUsuario, int idMetodoPago, int idVenta, String fechaVenta, double total) {
+        this.idUsuario = idUsuario;
+        this.idMetodoPago = idMetodoPago;
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;
         this.total = total;
@@ -23,21 +23,21 @@ public class Venta {
     //GETTERS Y SETTERS
 
     //get y set del objeto usuario
-    public Usuario getUsuario() {
-        return usuario;
+    public int getUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     //get y set del objeto del metodo de pago
-    public MetodoPago getMetodoPago() {
-        return metodoPago;
+    public int getMetodoPago() {
+        return idMetodoPago;
     }
 
-    public void setMetodoPago(MetodoPago metodoPago) {
-        this.metodoPago = metodoPago;
+    public void setMetodoPago(int idMetodoPago) {
+        this.idMetodoPago = idMetodoPago;
     }
 
     //get y set del id de venta
@@ -71,8 +71,8 @@ public class Venta {
     @Override
     public String toString() {
         return "Venta{" +
-                "usuario=" + usuario +
-                ", metodoPago=" + metodoPago +
+                "usuario=" + idUsuario +
+                ", metodoPago=" + idMetodoPago +
                 ", idVenta=" + idVenta +
                 ", fechaVenta='" + fechaVenta + '\'' +
                 ", total=" + total +

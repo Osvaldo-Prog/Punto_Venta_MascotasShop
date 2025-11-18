@@ -2,9 +2,9 @@ package org.example.puntoventamascotas.Models;
 
 public class DetalleCarrito {
     //inicializacion de atributos/variables
-    private Usuario usuario;
-    private Carrito carrito;
-    private Producto producto;
+    private int idUsuario;
+    private int idCarrito;
+    private int idProducto;
     private int idDetalleCarrito;
     private int cantidad; //cantidad de producto antes de pagar
     private double subTotal;
@@ -13,10 +13,10 @@ public class DetalleCarrito {
     public DetalleCarrito(){}
 
     //constructor con parametros
-    public DetalleCarrito(Usuario usuario, Carrito carrito, Producto producto, int idDetalleCarrito, int cantidad, double subTotal) {
-        this.usuario = usuario;
-        this.carrito = carrito;
-        this.producto = producto;
+    public DetalleCarrito(int idUsuario, int idCarrito, int idProducto, int idDetalleCarrito, int cantidad, double subTotal) {
+        this.idUsuario = idUsuario;
+        this.idCarrito = idCarrito;
+        this.idProducto = idProducto;
         this.idDetalleCarrito = idDetalleCarrito;
         this.cantidad = cantidad;
         this.subTotal = subTotal;
@@ -25,30 +25,30 @@ public class DetalleCarrito {
     //GETTERS Y SETTERS
 
     //get y set del objeto usuario
-    public Usuario getUsuario() {
-        return usuario;
+    public int getUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     //get y set del objeto del carrito
-    public Carrito getCarrito() {
-        return carrito;
+    public int getCarrito() {
+        return idCarrito;
     }
 
-    public void setCarrito(Carrito carrito) {
-        this.carrito = carrito;
+    public void setCarrito(int idCarrito) {
+        this.idCarrito = idCarrito;
     }
 
     //get y set del objeto de producto
-    public Producto getProducto() {
-        return producto;
+    public int getProducto() {
+        return idProducto;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     //get y set del id del detalle del carrito
@@ -82,9 +82,9 @@ public class DetalleCarrito {
     @Override
     public String toString() {
         return "DetalleCarrito{" +
-                "usuario=" + usuario +
-                ", carrito=" + carrito +
-                ", producto=" + producto +
+                "usuario=" + idUsuario +
+                ", carrito=" + idCarrito +
+                ", producto=" + idProducto +
                 ", idDetalleCarrito=" + idDetalleCarrito +
                 ", cantidad=" + cantidad +
                 ", subTotal=" + subTotal +

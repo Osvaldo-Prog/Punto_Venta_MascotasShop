@@ -7,19 +7,19 @@ public class Producto {
     private String descripcion;
     private double precio;
     private int stock;
-    private TipoProducto tipoProducto;
+    private int idTipoProducto;
 
     //construcor vacio
     public Producto(){}
 
     //constructor con para.
-    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, TipoProducto tipoProducto) {
+    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
-        this.tipoProducto = tipoProducto;
+        this.idTipoProducto = idTipoProducto;
     }
 
     //GETTERS Y SETTERS
@@ -70,12 +70,12 @@ public class Producto {
     }
 
     //get y set del objeto del tipo de producto al que corresponde
-    public TipoProducto getTipoProducto() {
-        return tipoProducto;
+    public int getTipoProducto() {
+        return idTipoProducto;
     }
 
-    public void setTipoProducto(TipoProducto tipoProducto) {
-        this.tipoProducto = tipoProducto;
+    public void setTipoProducto(int idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
     }
 
     //metodo toString
@@ -87,7 +87,7 @@ public class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precio=" + precio +
                 ", stock=" + stock +
-                ", tipoProducto=" + tipoProducto +
+                ", tipoProducto=" + idTipoProducto +
                 '}';
     }
 }
