@@ -19,23 +19,5 @@ public class VistaPrincipal extends Application {
         stage.show();
     }
 
-    public void mostrarMensajeError(String titulo, String mensaje){
-        Platform.runLater(()->{
-            Alert alertError = new Alert(Alert.AlertType.ERROR);
-            alertError.setTitle(titulo);
-            alertError.setHeaderText(null);
-            alertError.setContentText(mensaje);
-            alertError.showAndWait();
-        });
-    }
 
-    public void mostrarMensajeExito(String titulo, String mensaje){
-        Platform.runLater(()->{
-            Alert alertExito = new Alert(Alert.AlertType.CONFIRMATION);
-            alertExito.setTitle(titulo);
-            alertExito.setHeaderText(null);
-            alertExito.setContentText(mensaje);
-            alertExito.showAndWait();
-        });
-    }
 }

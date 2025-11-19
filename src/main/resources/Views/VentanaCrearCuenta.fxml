@@ -28,7 +28,7 @@
       </TextField>
       <Label fx:id="labelNombreUsuario" layoutX="152.0" layoutY="124.0" text="Nombre de usuario" />
       <Button fx:id="btonCancelar" layoutX="46.0" layoutY="461.0" mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
-      <Button fx:id="botonRegistrarse" layoutX="281.0" layoutY="461.0" mnemonicParsing="false" text="Registrarse" />
+      <Button fx:id="botonRegistrarse" layoutX="281.0" layoutY="461.0" mnemonicParsing="false" onAction="#registrarUsuario" text="Registrarse" />
       <Label fx:id="labelContraseña" layoutX="86.0" layoutY="201.0" text="Contraseña" />
       <Label fx:id="labelConfirContraseña" layoutX="231.0" layoutY="201.0" text="Confirmar contraseña" />
       <PasswordField fx:id="passFieldContraseña" layoutX="46.0" layoutY="228.0" prefHeight="25.0" prefWidth="140.0" promptText="Contraseña..." />

@@ -3,6 +3,7 @@ package org.example.puntoventamascotas;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.example.puntoventamascotas.DAO.ConexionMsql;
+import org.example.puntoventamascotas.Util.MensajesVista;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,9 +18,9 @@ public class Main extends Application {
         // La conexión se hace DENTRO de start, cuando JavaFX ya está inicializado
         Connection conexion = ConexionMsql.getConnection();
         if (conexion != null) {
-            vistaPrincipal.mostrarMensajeExito("Éxito en la conexión", "Se ha conectado a la DB");
+            MensajesVista.mostrarMensajeExito("Éxito en la conexión", "Se ha conectado a la DB");
         } else {
-            vistaPrincipal.mostrarMensajeError("Error en la conexión", "Se produjo un error en la conexión a la DB");
+            MensajesVista.mostrarMensajeError("Error en la conexión", "Se produjo un error en la conexión a la DB");
         }
 
     }
