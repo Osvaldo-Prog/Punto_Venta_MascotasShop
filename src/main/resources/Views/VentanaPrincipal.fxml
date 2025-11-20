@@ -10,28 +10,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="464.0" prefWidth="319.0" style="-fx-background-color: azure;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.MainController">
+<AnchorPane fx:id="anchorPaneVistaPrincipal" prefHeight="539.0" prefWidth="319.0" style="-fx-background-color: azure;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.MainController">
    <children>
-      <ImageView fx:id="imagenMascotasPrincipal" fitHeight="171.0" fitWidth="313.0" layoutX="26.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imagenMascotasPrincipal" fitHeight="171.0" fitWidth="313.0" layoutX="26.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Imagenes/mascotas2.png" />
          </image>
       </ImageView>
-      <Label fx:id="labelLogin" layoutX="136.0" layoutY="193.0" text="Login" textAlignment="CENTER" textFill="#4e57ff" underline="true" wrapText="true">
+      <Label fx:id="labelLogin" layoutX="136.0" layoutY="270.0" text="Login" textAlignment="CENTER" textFill="#4e57ff" underline="true" wrapText="true">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="textFieldUsernama" layoutX="49.0" layoutY="232.0" promptText="Nombre de usuario" />
-      <PasswordField fx:id="passwFieldContraseña" layoutX="49.0" layoutY="282.0" promptText="Contraseña..." />
-      <Button fx:id="btonIniciarSesion" defaultButton="true" layoutX="212.0" layoutY="257.0" mnemonicParsing="false" text="Iniciar Sesion" wrapText="true" />
-      <Separator layoutX="60.0" layoutY="333.0" prefHeight="12.0" prefWidth="200.0" />
-      <Label layoutX="63.0" layoutY="345.0" text="¿Aún no tienes una cuenta?">
+      <TextField fx:id="textFieldUsernama" layoutX="44.0" layoutY="299.0" promptText="Nombre de usuario" />
+      <PasswordField fx:id="passwFieldContraseña" layoutX="44.0" layoutY="349.0" promptText="Contraseña..." />
+      <Button fx:id="btonIniciarSesion" defaultButton="true" layoutX="207.0" layoutY="324.0" mnemonicParsing="false" text="Iniciar Sesion" wrapText="true" />
+      <Separator fx:id="separatorVistaPrincipal" layoutX="60.0" layoutY="400.0" prefHeight="12.0" prefWidth="200.0" />
+      <Label fx:id="labelPreguntaVistaPrin" layoutX="64.0" layoutY="412.0" text="¿Aún no tienes una cuenta?">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="btonCrearCuenta" layoutX="117.0" layoutY="373.0" mnemonicParsing="false" onAction="#abrirVentanaCrearCuenta" text="Crear Cuenta" />
-      <Button fx:id="btonCerrar" cancelButton="true" layoutX="133.0" layoutY="414.0" mnemonicParsing="false" onAction="#cerrarVentanaActual" text="Cerrar" />
+      <Button fx:id="btonCrearCuenta" layoutX="117.0" layoutY="440.0" mnemonicParsing="false" onAction="#abrirVentanaCrearCuenta" text="Crear Cuenta" />
+      <Button fx:id="btonCerrar" cancelButton="true" layoutX="135.0" layoutY="480.0" mnemonicParsing="false" onAction="#cerrarVentanaActual" text="Cerrar" />
+      <Label fx:id="labelTItuloVistaPrincipal" layoutX="83.0" layoutY="25.0" text="PetNova" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" underline="true" wrapText="true">
+         <font>
+            <Font name="Algerian" size="33.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
