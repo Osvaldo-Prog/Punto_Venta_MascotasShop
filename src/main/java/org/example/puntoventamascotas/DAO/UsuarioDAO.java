@@ -1,6 +1,8 @@
 package org.example.puntoventamascotas.DAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.example.puntoventamascotas.Models.Usuario;
 
@@ -12,7 +14,7 @@ public class UsuarioDAO {
         this.conexion = conexion;
     }
 
-    //===================================Metoto para insertar usuario automáticamente cliente====================================================
+    //===================================Metoto para insertar usuario automáticamente cliente=======================================================================
     public boolean insertarUsuario(Usuario usuario) {
         //insert para la base de datos en la tabla de usuario
         String sqlUsuario = "INSERT INTO usuario (nombre, edad, nombre_usuario, telefono, correo, contraseña) VALUES (?,?,?,?,?,?)";
@@ -57,7 +59,7 @@ public class UsuarioDAO {
                 }
             }
 
-            //Insertar el usuario recién a la tabla perteneceA
+            //Insertar el usuario recién a la tabla perteneceA************************************************************************************************
             String sqlRol = "INSERT INTO pertenece (id_usuario, id_rol) VALUES (?,?)";
             stmtRolUsuario = conexion.prepareStatement(sqlRol);
             stmtRolUsuario.setInt(1, idUsuario);
@@ -86,7 +88,6 @@ public class UsuarioDAO {
             try{
                 if(stmtUsuario != null) stmtUsuario.close();
                 if(stmtRolUsuario != null) stmtRolUsuario.close();
-                if(conexion != null) conexion.close();
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -94,5 +95,117 @@ public class UsuarioDAO {
 
     }
 
+    //Metodo para verificar si el nombre de usuario existe en la base de datos========================================================================
+    public boolean nombreUsuarioExiste(String nombre_usuario){
+        //consulta de cuantos nombres de usuario existen comparado con el que se ingresó
+        String sqlNombreUsuario = "SELECT COUNT(*) " +
+                                  "from usuario " +
+                                  "WHERE nombre_usuario = ?";
+        //inicializar el PreparedStatement y el ResulSet
+        PreparedStatement stmtExisteNombreUsuario = null;
+        ResultSet rsConteoUsuarios = null;
+        try {
+            stmtExisteNombreUsuario = conexion.prepareStatement(sqlNombreUsuario);
+            stmtExisteNombreUsuario.setString(1, nombre_usuario);
+            rsConteoUsuarios = stmtExisteNombreUsuario.executeQuery();
+            if(rsConteoUsuarios.next()) {
+                return rsConteoUsuarios.getInt(1) > 0; //esto quiere decir que si, ya existe
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; //esto quiere decir que no existe o que hubo un error
+    }
+
+    //Verificar si el correo existe en la base de datos=======================================================================================================================
+    public boolean correoExistente(String correoUsuario){
+        //consulta para ver si existe el correo
+        String sqlCorreoUsuario = "SELECT COUNT(*) " +
+                                  "from usuario " +
+                                  "WHERE correo = ?";
+        PreparedStatement stmtExisteCorreo = null;
+        ResultSet rsCorreo = null;
+        try{
+            stmtExisteCorreo = conexion.prepareStatement(sqlCorreoUsuario);
+            stmtExisteCorreo.setString(1, correoUsuario);
+            rsCorreo = stmtExisteCorreo.executeQuery();
+            if(rsCorreo.next()) {
+                return rsCorreo.getInt(1) > 0; // quiere decir que si existe correo
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false; // quiere decir que no hay correo registrado
+    }
+
+    //Metodo para verificar si ya existe el numero de telefono=============================================================================
+    public boolean existeNumeroTelefono(String numero_telefono){
+        String sqlTelefonoUsuario = "SELECT COUNT(*) " +
+                                    "from usuario " +
+                                    "WHERE telefono = ?";
+        PreparedStatement stmtTelefonoUsuario = null;
+        ResultSet rsTelefonoUsuario = null;
+        try{
+            stmtTelefonoUsuario = conexion.prepareStatement(sqlTelefonoUsuario);
+            stmtTelefonoUsuario.setString(1, numero_telefono);
+            rsTelefonoUsuario = stmtTelefonoUsuario.executeQuery();
+            if(rsTelefonoUsuario.next()){
+                return rsTelefonoUsuario.getInt(1) > 0;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //Metodo para listar todos los usuarios========================================================================================
+    public List<Usuario> listarUsuarios(){
+        List<Usuario> usuariosLista = new ArrayList<>();
+        String sqlListaUsuarios = "SELECT * FROM usuario";
+        PreparedStatement stmtListaUsuarios = null;
+        ResultSet rsListaUsuarios = null;
+        try{
+            stmtListaUsuarios = conexion.prepareStatement(sqlListaUsuarios);
+            rsListaUsuarios = stmtListaUsuarios.executeQuery();
+            while (rsListaUsuarios.next()) {
+                usuariosLista.add(new Usuario(rsListaUsuarios.getInt("id_usuario"),
+                        rsListaUsuarios.getString("nombre"),
+                        rsListaUsuarios.getInt("edad"),
+                        rsListaUsuarios.getString("nombre_usuario"),
+                        rsListaUsuarios.getString("telefono"),
+                        rsListaUsuarios.getString("correo"),
+                        rsListaUsuarios.getString("contraseña")));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return usuariosLista;
+    }
+
+
+    //Metodo para obtener el rol del usuario
+    public String obtenerRolPorUsuario(int idUsuario){
+        //se pone alias para faciliar el uso del nombre del rol
+        //esta consulta trae el nombre del rol pero por usuario que inicio sesion, o mas bien el que se esta usando
+        String sqlRolUsuario = "SELECT rol_usuario.nombre as rol" +
+                                " from rol_usuario" +
+                                " INNER JOIN pertenece ON pertenece.id_rol = rol_usuario.id_rol" +
+                                " WHERE pertenece.id_usuario = ?";
+        PreparedStatement stmtRolUsuario = null;
+        ResultSet rsRolUsuario = null;
+        try{
+            stmtRolUsuario = conexion.prepareStatement(sqlRolUsuario);
+            stmtRolUsuario.setInt(1, idUsuario);
+            rsRolUsuario = stmtRolUsuario.executeQuery();
+
+            if(rsRolUsuario.next()){
+                //aqui se pone el nombre del alias
+                return rsRolUsuario.getString("rol");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
