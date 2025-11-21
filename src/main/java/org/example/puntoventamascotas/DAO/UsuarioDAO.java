@@ -1,6 +1,8 @@
 package org.example.puntoventamascotas.DAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.example.puntoventamascotas.Models.Usuario;
 
@@ -136,7 +138,7 @@ public class UsuarioDAO {
         return false; // quiere decir que no hay correo registrado
     }
 
-    //Metodo para verificar si ya existe el numero de telefono
+    //Metodo para verificar si ya existe el numero de telefono=============================================================================
     public boolean existeNumeroTelefono(String numero_telefono){
         String sqlTelefonoUsuario = "SELECT COUNT(*) " +
                                     "from usuario " +
@@ -154,6 +156,30 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //Metodo para listar todos los usuarios========================================================================================
+    public List<Usuario> listarUsuarios(){
+        List<Usuario> usuariosLista = new ArrayList<>();
+        String sqlListaUsuarios = "SELECT * FROM usuario";
+        PreparedStatement stmtListaUsuarios = null;
+        ResultSet rsListaUsuarios = null;
+        try{
+            stmtListaUsuarios = conexion.prepareStatement(sqlListaUsuarios);
+            rsListaUsuarios = stmtListaUsuarios.executeQuery();
+            while (rsListaUsuarios.next()) {
+                usuariosLista.add(new Usuario(rsListaUsuarios.getInt("id_usuario"),
+                        rsListaUsuarios.getString("nombre"),
+                        rsListaUsuarios.getInt("edad"),
+                        rsListaUsuarios.getString("nombre_usuario"),
+                        rsListaUsuarios.getString("telefono"),
+                        rsListaUsuarios.getString("correo"),
+                        rsListaUsuarios.getString("contraseña")));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return usuariosLista;
     }
 
 }
