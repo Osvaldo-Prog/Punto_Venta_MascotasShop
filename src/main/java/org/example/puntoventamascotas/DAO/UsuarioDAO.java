@@ -182,4 +182,30 @@ public class UsuarioDAO {
         return usuariosLista;
     }
 
+
+    //Metodo para obtener el rol del usuario
+    public String obtenerRolPorUsuario(int idUsuario){
+        //se pone alias para faciliar el uso del nombre del rol
+        //esta consulta trae el nombre del rol pero por usuario que inicio sesion, o mas bien el que se esta usando
+        String sqlRolUsuario = "SELECT rol_usuario.nombre as rol" +
+                                " from rol_usuario" +
+                                " INNER JOIN pertenece ON pertenece.id_rol = rol_usuario.id_rol" +
+                                " WHERE pertenece.id_usuario = ?";
+        PreparedStatement stmtRolUsuario = null;
+        ResultSet rsRolUsuario = null;
+        try{
+            stmtRolUsuario = conexion.prepareStatement(sqlRolUsuario);
+            stmtRolUsuario.setInt(1, idUsuario);
+            rsRolUsuario = stmtRolUsuario.executeQuery();
+
+            if(rsRolUsuario.next()){
+                //aqui se pone el nombre del alias
+                return rsRolUsuario.getString("rol");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

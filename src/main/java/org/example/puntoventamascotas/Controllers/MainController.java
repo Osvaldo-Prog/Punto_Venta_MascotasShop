@@ -16,7 +16,6 @@ import org.example.puntoventamascotas.DAO.UsuarioDAO;
 import org.example.puntoventamascotas.Models.Usuario;
 import org.example.puntoventamascotas.Util.MensajesVista;
 import org.mindrot.jbcrypt.BCrypt;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -66,19 +65,28 @@ public class MainController {
 
     //metodo para validar si existe el usuario y de el acceso
     // es boleano para de aqui ver si se abre la nueva ventana dependiendo quien inice sesion
-    public boolean procesarLogeo(){
+    public String procesarLogeo(){
             //listamos todos los usarios llamando la consulta con el dao
             List<Usuario> listaUsuarios = usuarioDAO.listarUsuarios();
+            //validamos usuario y contraseña
             for (Usuario usuario : listaUsuarios) {
                 //validamos que coinciden
-                boolean userNameValido = usuario.getNombreUsuario().equals(textFieldUsername.getText());
+                boolean userNameValido = usuario.getNombreUsuario().equals(textFieldUsername.getText().trim());
                 boolean passwValido = BCrypt.checkpw(passwFieldContraseña.getText(), usuario.getContraseña());
                 //validamos que existen
                 if(userNameValido && passwValido){
-                    return true;
+                    String rolUsuario = usuarioDAO.obtenerRolPorUsuario(usuario.getIdUsuario());
+                    //este sout me trae el rol del usuario que inicio sesion
+                    System.out.println(rolUsuario);
+
+                    //si el usuario no tiene rol retorna nulo
+                    if(rolUsuario == null){
+                        return "Sin Rol";
+                    }
+                    return rolUsuario;
                 }
             }
-        return false;
+        return "Nombre de usuario o contraseña incorrectos";
     }
 
 
@@ -86,9 +94,14 @@ public class MainController {
     //********aun falta validar quien inicio sesion********
     public void abrirVentanaDependiente(){
         boolean sonVacios = camposVacios(textFieldUsername, passwFieldContraseña);
+        String rolUsuario = procesarLogeo();
         if(sonVacios){
             MensajesVista.mostrarMensajeError("Error", "No se pudo iniciar sesión, todos los campos son obligatorios");
-        }else if(procesarLogeo()){
+        } else if(rolUsuario.equals("Nombre de usuario o contraseña incorrectos")){
+            MensajesVista.mostrarMensajeError("Error", "Nombre de usuario o contraseña incorrectos");
+        } else if(rolUsuario.equals("Sin Rol")){
+            MensajesVista.mostrarMensajeError("Error", "Usuario Sin Rol");
+        }else if(rolUsuario.equalsIgnoreCase("Cliente")){
             try{
                 //Se crea un FXMLoader para cargar la ventana enlazada
                 FXMLLoader loaderVentanaCliente = new FXMLLoader(getClass().getResource("/Views/VentanaLoginCliente.fxml"));
@@ -98,12 +111,29 @@ public class MainController {
                 //Se inicializa la ventana
                 Scene sceneVentanaCliente = new Scene(root);
                 Stage stage = new Stage();
-                stage.setTitle("Menu de productos/mascotas");
+                stage.setTitle("Menu de productos/mascotas como cliente");
                 stage.setScene(sceneVentanaCliente);
                 stage.show();
             }catch(Exception e){
                 e.printStackTrace();
             }
+        }else if(rolUsuario.equalsIgnoreCase("Administrador")){
+            try{
+                //se crea el fxml para cargar la ventana
+                FXMLLoader loaderVentanaAdministrador = new FXMLLoader(getClass().getResource("/Views/VentanaLoginAdministrador.fxml"));
+                //para que el root cargue bien la ventana
+                Parent root = loaderVentanaAdministrador.load();
+
+                //inicializar la ventana
+                Scene sceneVentanaAdministrador = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("Menu de productos/mascotas como administrador");
+                stage.setScene(sceneVentanaAdministrador);
+                stage.show();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
         }else{
             MensajesVista.mostrarMensajeError("Error", "No se pudo iniciar sesión, verifica tu nombre de usuario o contraseña");
         }
@@ -114,6 +144,20 @@ public class MainController {
     //metodo para validar campos vacios===========================================================================
     private boolean camposVacios(TextField textFieldUsername, TextField passwFieldContraseña){
         if(textFieldUsername.getText().isEmpty() || passwFieldContraseña.getText().isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
+    //Metodo sencillo para validar si existe el nombre de usuario=====================================================================================
+    public boolean existeNombreUsuario(String textFieldNombreUsuario) {
+        return usuarioDAO.nombreUsuarioExiste(textFieldNombreUsuario);
+    }
+
+
+    //metodo para validar coincidencia de las contraseñas=====================================================================================
+    public boolean sonIgualesContraseñas(String passFieldContraseña, String passFieldConfirContraseña){
+        if(passFieldContraseña.equals(passFieldConfirContraseña)){
             return true;
         }
         return false;

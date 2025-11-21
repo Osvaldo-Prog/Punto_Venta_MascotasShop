@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.example.puntoventamascotas.DAO.ConexionMsql;
 import org.example.puntoventamascotas.Util.MensajesVista;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.Connection;
