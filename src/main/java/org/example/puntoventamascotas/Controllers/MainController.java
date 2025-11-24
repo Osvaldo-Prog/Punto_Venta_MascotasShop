@@ -113,6 +113,8 @@ public class MainController {
                 Stage stage = new Stage();
                 stage.setTitle("Menu de productos/mascotas como cliente");
                 stage.setScene(sceneVentanaCliente);
+                stage.setFullScreen(true);
+                stage.centerOnScreen();
                 stage.show();
             }catch(Exception e){
                 e.printStackTrace();

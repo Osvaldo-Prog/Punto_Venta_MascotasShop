@@ -13,6 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        /*Contraseña del admin: Osvaldo Admin;  OsvaldoAdmin123
+          Contraseña del cliente: OsvaldoCliente; Osvaldo123!*/
         // Ahora inicializas tu VistaPrincipal
         VistaPrincipal vistaPrincipal = new VistaPrincipal();
         vistaPrincipal.start(primaryStage);

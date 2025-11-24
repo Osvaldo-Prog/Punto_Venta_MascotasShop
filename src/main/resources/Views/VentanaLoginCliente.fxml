@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControladorLoginCliente">
-   <children>
-      <Label layoutX="251.0" layoutY="140.0" text="Bienvenido Cliente" />
-   </children>
-</AnchorPane>
+<ScrollPane fx:id="scrollPaneMenuCliente" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="768.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControladorLoginCliente">
+  <content>
+    <AnchorPane fx:id="anchorPaneClienteMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1233.0" style="-fx-background-color: azure;">
+         <children>
+            <Label fx:id="labelTituloCliente" alignment="TOP_CENTER" layoutX="211.0" layoutY="27.0" text="Bienvenido a PetNova" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+               <font>
+                  <Font name="Elephant" size="32.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imageViewSabueso" fitHeight="133.0" fitWidth="195.0" layoutX="43.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/sabuesos.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imageViewChihuaha" fitHeight="129.0" fitWidth="160.0" layoutX="321.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/chihuaha.png" />
+               </image></ImageView>
+            <Separator fx:id="separadorVertical" layoutX="264.0" layoutY="174.0" orientation="VERTICAL" prefHeight="130.0" prefWidth="17.0" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
