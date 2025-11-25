@@ -25,7 +25,6 @@ public class Main extends Application {
         } else {
             MensajesVista.mostrarMensajeError("Error en la conexión", "Se produjo un error en la conexión a la DB");
         }
-
     }
 
     public static void main(String[] args) {

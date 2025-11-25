@@ -7,17 +7,21 @@ public class Mascota {
     private String nombreMascota;
     private String descripcionMascota;
     private String cuidados;
+    private double precio;
+    private String imagen;
     private int idTipoMascota;
 
     //constructor vacio
     public Mascota(){}
 
     //constructor con para.
-    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, int idTipoMascota) {
+    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, int idTipoMascota, double precio, String imagen) {
         this.idMascota = idMascota;
         this.nombreMascota = nombreMascota;
         this.descripcionMascota = descripcionMascota;
         this.cuidados = cuidados;
+        this.precio = precio;
+        this.imagen = imagen;
         this.idTipoMascota = idTipoMascota;
     }
 
@@ -59,7 +63,28 @@ public class Mascota {
         this.cuidados = cuidados;
     }
 
-    //get y set del objeto de tipo de mascota
+    //get y set de precio
+
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    //getter y set de imagen
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    //get y set del de tipo de mascota
     public int getTipoMascota() {
         return idTipoMascota;
     }
@@ -68,7 +93,10 @@ public class Mascota {
         this.idTipoMascota = idTipoMascota;
     }
 
+
+
     //metodo toString
+
     @Override
     public String toString() {
         return "Mascota{" +
@@ -76,7 +104,9 @@ public class Mascota {
                 ", nombreMascota='" + nombreMascota + '\'' +
                 ", descripcionMascota='" + descripcionMascota + '\'' +
                 ", cuidados='" + cuidados + '\'' +
-                ", tipoMascota=" + idTipoMascota +
+                ", precio=" + precio +
+                ", imagen='" + imagen + '\'' +
+                ", idTipoMascota=" + idTipoMascota +
                 '}';
     }
 }

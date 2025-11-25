@@ -5,9 +5,11 @@ module org.example.puntoventamascotas {
     requires jdk.jdi;
     requires jbcrypt;
     requires javafx.graphics;
+    requires java.desktop;
 
     // Agrega estas líneas:
     opens org.example.puntoventamascotas.Controllers to javafx.fxml;
+    opens org.example.puntoventamascotas.Models to javafx.base, javafx.fxml;
     exports org.example.puntoventamascotas.Controllers;
 
     exports org.example.puntoventamascotas;

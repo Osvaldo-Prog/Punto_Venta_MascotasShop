@@ -7,18 +7,20 @@ public class Producto {
     private String descripcion;
     private double precio;
     private int stock;
+    private String imagen;
     private int idTipoProducto;
 
     //construcor vacio
     public Producto(){}
 
     //constructor con para.
-    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto) {
+    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto, String imagen) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
+        this.imagen = imagen;
         this.idTipoProducto = idTipoProducto;
     }
 
@@ -69,6 +71,17 @@ public class Producto {
         this.stock = stock;
     }
 
+    //getter y setter de imagen
+
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     //get y set del objeto del tipo de producto al que corresponde
     public int getTipoProducto() {
         return idTipoProducto;
@@ -87,7 +100,8 @@ public class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precio=" + precio +
                 ", stock=" + stock +
-                ", tipoProducto=" + idTipoProducto +
+                ", imagen='" + imagen + '\'' +
+                ", idTipoProducto=" + idTipoProducto +
                 '}';
     }
 }
