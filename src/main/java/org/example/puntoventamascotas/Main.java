@@ -9,11 +9,14 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
 import java.sql.Connection;
 
-public class Main extends Application {
+/*Hacer el esacioEdicion de productos y usuario; crear el componente card de usuarios
+* Hacer el formulario de productos y usuario*/
+
+public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        /*Contraseña del admin: Osvaldo Admin;  OsvaldoAdmin123
+        /*Contraseña del admin: OsvaldoAdmin;  OsvaAdmin123!
           Contraseña del cliente: OsvaldoCliente; Osvaldo123!*/
         // Ahora inicializas tu VistaPrincipal
         VistaPrincipal vistaPrincipal = new VistaPrincipal();
@@ -21,7 +24,7 @@ public class Main extends Application {
         // La conexión se hace DENTRO de start, cuando JavaFX ya está inicializado
         Connection conexion = ConexionMsql.getConnection();
         if (conexion != null) {
-            MensajesVista.mostrarMensajeExito("Éxito en la conexión", "Se ha conectado a la DB");
+            //MensajesVista.mostrarMensajeExito("Éxito en la conexión", "Se ha conectado a la DB");
         } else {
             MensajesVista.mostrarMensajeError("Error en la conexión", "Se produjo un error en la conexión a la DB");
         }

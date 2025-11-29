@@ -75,15 +75,13 @@ public class MainController {
                 boolean passwValido = BCrypt.checkpw(passwFieldContraseña.getText(), usuario.getContraseña());
                 //validamos que existen
                 if(userNameValido && passwValido){
-                    String rolUsuario = usuarioDAO.obtenerRolPorUsuario(usuario.getIdUsuario());
                     //este sout me trae el rol del usuario que inicio sesion
-                    System.out.println(rolUsuario);
 
                     //si el usuario no tiene rol retorna nulo
-                    if(rolUsuario == null){
+                    if(usuario.getIdRol() == 0){
                         return "Sin Rol";
                     }
-                    return rolUsuario;
+                    return "" + usuario.getIdRol();
                 }
             }
         return "Nombre de usuario o contraseña incorrectos";
@@ -95,17 +93,20 @@ public class MainController {
     public void abrirVentanaDependiente(){
         boolean sonVacios = camposVacios(textFieldUsername, passwFieldContraseña);
         String rolUsuario = procesarLogeo();
+        System.out.println(rolUsuario);
         if(sonVacios){
             MensajesVista.mostrarMensajeError("Error", "No se pudo iniciar sesión, todos los campos son obligatorios");
         } else if(rolUsuario.equals("Nombre de usuario o contraseña incorrectos")){
             MensajesVista.mostrarMensajeError("Error", "Nombre de usuario o contraseña incorrectos");
         } else if(rolUsuario.equals("Sin Rol")){
             MensajesVista.mostrarMensajeError("Error", "Usuario Sin Rol");
-        }else if(rolUsuario.equalsIgnoreCase("Cliente")){
+            //se pasa para comparar un 2 porque es el id de cliente en la BD
+        }else if(rolUsuario.equalsIgnoreCase("2")){
             try{
                 //Se crea un FXMLoader para cargar la ventana enlazada
                 FXMLLoader loaderVentanaCliente = new FXMLLoader(getClass().getResource("/Views/VentanaLoginCliente.fxml"));
                 //Es como decir: "Carga mi archivo FXML y dame el panel principal"
+                //System.out.println(loaderVentanaCliente);
                 Parent root = loaderVentanaCliente.load();
 
                 //Se inicializa la ventana
@@ -119,17 +120,21 @@ public class MainController {
             }catch(Exception e){
                 e.printStackTrace();
             }
-        }else if(rolUsuario.equalsIgnoreCase("Administrador")){
+            //aqui lo mismo pero con 1 porque es el id de admin en la BD
+        }else if(rolUsuario.equalsIgnoreCase("1")){
             try{
                 //se crea el fxml para cargar la ventana
                 FXMLLoader loaderVentanaAdministrador = new FXMLLoader(getClass().getResource("/Views/VentanaLoginAdministrador.fxml"));
                 //para que el root cargue bien la ventana
+                System.out.println(loaderVentanaAdministrador);
+                //hay error justo aqui, como que no detecta la ventana;  javafx.fxml.FXMLLoader@447a6204
                 Parent root = loaderVentanaAdministrador.load();
 
                 //inicializar la ventana
                 Scene sceneVentanaAdministrador = new Scene(root);
                 Stage stage = new Stage();
-                stage.setTitle("Menu de productos/mascotas como administrador");
+                stage.setTitle("Menu como administrador");
+                stage.setFullScreen(false);
                 stage.setScene(sceneVentanaAdministrador);
                 stage.show();
             }catch(Exception e){

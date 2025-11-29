@@ -1,6 +1,6 @@
 package org.example.puntoventamascotas.Models;
 
-public class Mascota {
+public class Mascota implements ItemCardInterface{
     //inicializacion de atributos/variables
     /*Misma situacion de atributo con FK = objeto*/
     private int idMascota;
@@ -14,9 +14,8 @@ public class Mascota {
     //constructor vacio
     public Mascota(){}
 
-    //constructor con para.
-    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, int idTipoMascota, double precio, String imagen) {
-        this.idMascota = idMascota;
+    //constructor sin id para la inserción a la DB
+    public Mascota(String nombreMascota, String descripcionMascota, String cuidados, double precio, String imagen, int idTipoMascota) {
         this.nombreMascota = nombreMascota;
         this.descripcionMascota = descripcionMascota;
         this.cuidados = cuidados;
@@ -25,10 +24,24 @@ public class Mascota {
         this.idTipoMascota = idTipoMascota;
     }
 
+    //constructor con para.
+    public Mascota(int idMascota, String nombreMascota, String descripcionMascota, String cuidados, double precio, int idTipoMascota, String imagen) {
+        this.idMascota = idMascota;
+        this.nombreMascota = nombreMascota;
+        this.descripcionMascota = descripcionMascota;
+        this.cuidados = cuidados;
+        this.precio = precio;
+        this.imagen = imagen;
+        this.idTipoMascota = idTipoMascota;
+
+
+    }
+
     //GETTERS Y SETTERS
 
     //get y set de id de la mascota
-    public int getIdMascota() {
+    @Override
+    public int getId() {
         return idMascota;
     }
 
@@ -37,7 +50,8 @@ public class Mascota {
     }
 
     //get y set del nombre de la mascota
-    public String getNombreMascota() {
+    @Override
+    public String getNombre() {
         return nombreMascota;
     }
 
@@ -65,7 +79,7 @@ public class Mascota {
 
     //get y set de precio
 
-
+    @Override
     public double getPrecio() {
         return precio;
     }
@@ -76,6 +90,7 @@ public class Mascota {
 
     //getter y set de imagen
 
+    @Override
     public String getImagen() {
         return imagen;
     }
@@ -85,12 +100,18 @@ public class Mascota {
     }
 
     //get y set del de tipo de mascota
-    public int getTipoMascota() {
+
+    public int getIdTipo() {
         return idTipoMascota;
     }
 
     public void setTipoMascota(int idTipoMascota) {
         this.idTipoMascota = idTipoMascota;
+    }
+
+    @Override
+    public String getTipo() {
+        return "Mascota";
     }
 
 

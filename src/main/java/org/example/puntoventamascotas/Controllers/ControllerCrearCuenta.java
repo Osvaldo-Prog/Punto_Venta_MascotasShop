@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.example.puntoventamascotas.DAO.ConexionMsql;
 import org.example.puntoventamascotas.DAO.UsuarioDAO;
 import org.example.puntoventamascotas.Models.Usuario;
-import org.example.puntoventamascotas.VistaPrincipal;
 //este import es una manera de hashear la contraseña
 import org.mindrot.jbcrypt.BCrypt;
 import org.example.puntoventamascotas.Util.MensajesVista;
@@ -74,7 +73,7 @@ public class ControllerCrearCuenta {
             usuario.setTelefono(textFieldNumero.getText().trim());
 
             //llamar al metodo de insercion a la base de datos del dao
-            boolean exito = usuarioDAO.insertarUsuario(usuario);
+            boolean exito = usuarioDAO.insertarUsuario(usuario, 2);
             if (exito) {
                 return true;
             } else {
