@@ -1,42 +1,54 @@
 package org.example.puntoventamascotas.Models;
 
+import java.time.LocalDateTime;
+
 public class Venta {
     //inicialiacion de atributos/variables
     private int idUsuario;
     private int idMetodoPago;
     private int idVenta;
-    private String fechaVenta;
+    private int idDireccionEnvio;
+    private LocalDateTime fechaVenta;
     private double total;
 
     //constructor vacio
     public Venta(){}
 
     //constructor con param.
-    public Venta(int idUsuario, int idMetodoPago, int idVenta, String fechaVenta, double total) {
+    public Venta(int idUsuario, int idMetodoPago, int idDireccionEnvio, LocalDateTime fechaVenta, double total) {
         this.idUsuario = idUsuario;
         this.idMetodoPago = idMetodoPago;
-        this.idVenta = idVenta;
+        this.idDireccionEnvio = idDireccionEnvio;
         this.fechaVenta = fechaVenta;
         this.total = total;
     }
 
     //GETTERS Y SETTERS
 
+
+    public int getIdDireccionEnvio() {
+        return idDireccionEnvio;
+    }
+
+    public void setIdDireccionEnvio(int idDireccionEnvio) {
+        this.idDireccionEnvio = idDireccionEnvio;
+    }
+
     //get y set del objeto usuario
-    public int getUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setUsuario(int idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
     //get y set del objeto del metodo de pago
-    public int getMetodoPago() {
+    public int getIdMetodoPago() {
         return idMetodoPago;
     }
 
-    public void setMetodoPago(int idMetodoPago) {
+    public void setIdMetodoPago(int idMetodoPago) {
         this.idMetodoPago = idMetodoPago;
     }
 
@@ -50,11 +62,11 @@ public class Venta {
     }
 
     //get y set de fecha de la venta
-    public String getFechaVenta() {
+    public LocalDateTime getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(String fechaVenta) {
+    public void setFechaVenta(LocalDateTime fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 

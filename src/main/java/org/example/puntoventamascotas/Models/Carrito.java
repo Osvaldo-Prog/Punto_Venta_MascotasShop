@@ -1,69 +1,22 @@
 package org.example.puntoventamascotas.Models;
 
-public class Carrito {
-    //inicializacion de atributos/variables
-    private int idUsuario;
-    private int idCarrito;
-    private String fechaCreacion;
-    private boolean estado;
+import java.util.ArrayList;
+import java.util.List;
 
-    //constructor vacio
-    public Carrito(){}
+public class Carrito <T> {
+    private List<T> items;
 
-    //constructor con parametros
-    public Carrito(int idUsuario, int idCarrito, String fechaCreacion,  boolean estado) {
-        this.idUsuario = idUsuario;
-        this.idCarrito = idCarrito;
-        this.fechaCreacion = fechaCreacion;
-        this.estado = estado;
+    //constructor para crear la lista donde se añadirán los items (productos y mascotas)
+    public Carrito() {
+        items = new ArrayList<>();
     }
 
-    //Getters y setters
-
-    //get y set del objeto de usuario
-    public int getUsuario() {
-        return idUsuario;
+    public void agregarItem(T item){
+        this.items.add(item);
     }
 
-    public void setUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public List<T> obtenerItems(){
+        return items;
     }
 
-    //get y set del id del carrito
-    public int getIdCarrito() {
-        return idCarrito;
-    }
-
-    public void setIdCarrito(int idCarrito) {
-        this.idCarrito = idCarrito;
-    }
-
-    //get y set de la fecha de creacion
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    //get y set del estado del carrito
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    //metodo toString
-    @Override
-    public String toString() {
-        return "Carrito{" +
-                "usuario=" + idUsuario +
-                ", idCarrito=" + idCarrito +
-                ", fechaCreacion='" + fechaCreacion + '\'' +
-                ", estado=" + estado +
-                '}';
-    }
 }
