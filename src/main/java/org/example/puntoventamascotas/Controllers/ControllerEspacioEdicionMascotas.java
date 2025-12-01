@@ -15,6 +15,7 @@ import org.example.puntoventamascotas.DAO.ConexionMsql;
 import org.example.puntoventamascotas.DAO.MascotaDAO;
 import org.example.puntoventamascotas.Models.ItemCardInterface;
 import org.example.puntoventamascotas.Models.Mascota;
+import org.example.puntoventamascotas.Util.MensajesVista;
 
 import java.io.IOException;
 import java.util.List;
@@ -81,15 +82,32 @@ public class ControllerEspacioEdicionMascotas {
                 });
 
                 controllerCardMascotas.setOnEliminar(itemCard -> {
-
+                    boolean siBorrar = MensajesVista.mostrarMensajeConfirmacion("¿Seguro?", "¿Estas seguro de que quiere borrar la mascota?");
+                    if(siBorrar){
+                        mascotaDAO.eliminarMascota(itemCard.getId());
+                        MensajesVista.mostrarMensajeExito("Exito", "Mascota eliminada con éxito");
+                    }
                 });
 
                 controllerCardMascotas.setOnComprar(itemCard -> {
                 });
 
                 controllerCardMascotas.setOnInfo(itemCard -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/InformacionModelo.fxml"));
+                        Parent root = loader.load();
+                        ControllerInformacionModelo controllerInformacionModelo = loader.getController();
+                        //se llama al metodo pero se concatena como mascota ya que se usa la misma interfaz para el producto
+                        controllerInformacionModelo.setDataMascotaInfo((Mascota) itemCard);
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                    }catch (IOException e){
+                        throw new RuntimeException(e);
+                    }
                 });
-
+                //se le asigna la informaicon del modelo (mascota) al card
                 flowPaneEdicionMascotas.getChildren().add(card);
             }
         //}

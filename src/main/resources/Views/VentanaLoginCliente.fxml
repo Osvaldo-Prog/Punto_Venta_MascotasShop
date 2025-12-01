@@ -25,6 +25,7 @@
                   <FlowPane fx:id="flowPaneCard" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="1178.0" style="-fx-background-color: azure;" />
                </content>
             </ScrollPane>
+            <Button layoutX="1077.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCarrito" text="Ver Carrito" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

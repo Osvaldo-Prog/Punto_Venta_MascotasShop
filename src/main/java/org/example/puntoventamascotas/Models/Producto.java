@@ -9,9 +9,20 @@ public class Producto implements ItemCardInterface{
     private int stock;
     private String imagen;
     private int idTipoProducto;
+    int cantidad = 1;
 
     //construcor vacio
     public Producto(){}
+
+    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, String imagen, int idTipoProducto) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.imagen = imagen;
+        this.idTipoProducto = idTipoProducto;
+    }
 
     //constructor con para actualizar
     public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto, String imagen) {
@@ -112,6 +123,14 @@ public class Producto implements ItemCardInterface{
     @Override
     public String getTipo() {
         return "Producto";
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     //metodo toString

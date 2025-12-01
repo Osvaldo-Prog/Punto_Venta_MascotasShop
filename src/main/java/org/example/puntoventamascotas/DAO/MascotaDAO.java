@@ -99,7 +99,7 @@ public class MascotaDAO {
     public boolean updateMascota(Mascota mascota){
         String sql = "UPDATE mascota" +
                      " SET nombre = ?, cuidados = ?, descripcion = ?, precio = ?, imagen = ?, id_tipo_mascota = ?" +
-                     " WHERE id_producto = ?;";
+                     " WHERE id_mascota = ?;";
         PreparedStatement stmtUpdateMascota = null;
         try{
             stmtUpdateMascota = conexion.prepareStatement(sql);
@@ -118,8 +118,9 @@ public class MascotaDAO {
         }
     }
 
-    //metodo para obtener el id del tipo de mascota segun el nombre
-    public TipoMascota obtenerTipoMascota(String nombre){
+    //Este metodo me retorna null y no se por que
+    //metodo para obtener el id del tipo de mascota segun el nombre que se usa en el insert de administrador
+    public TipoMascota obtenerTipoMascotaByNombre(String nombre){
         String sql = "SELECT * FROM tipo_mascota" +
                      " WHERE nombre = ?;";
         PreparedStatement stmtTipoMascota = null;
@@ -131,7 +132,7 @@ public class MascotaDAO {
             if(rsTipoMascota.next()){
                 TipoMascota tipoMascota = new TipoMascota();
                 tipoMascota.setIdTipoMascota(rsTipoMascota.getInt("id_tipo_mascota"));
-                tipoMascota.setNombreTipoMascota(rsTipoMascota.getString("nombre_tipo_mascota"));
+                tipoMascota.setNombreTipoMascota(rsTipoMascota.getString("nombre"));
                 tipoMascota.setDescripcion(rsTipoMascota.getString("descripcion"));
                 tipoMascota.setArea(rsTipoMascota.getInt("id_area"));
                 return tipoMascota;
@@ -140,6 +141,49 @@ public class MascotaDAO {
         }catch(SQLException e ){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //metodo para obtener el id de tipo de mascota pero pasandole el idtipoMascota como parametro
+    //se usa en el setdata de mascotas para llenar el formulario de actualizacion
+    public TipoMascota obtenerNombreTipoMascotaPorId(int idTipoMascota){
+        String sql = "SELECT * " +
+                     "FROM tipo_mascota " +
+                     "WHERE id_tipo_mascota = ?;";
+        PreparedStatement stmtTipoMascota = null;
+        ResultSet rsTipoMascota = null;
+        try{
+            stmtTipoMascota = conexion.prepareStatement(sql);
+            stmtTipoMascota.setInt(1, idTipoMascota);
+            rsTipoMascota = stmtTipoMascota.executeQuery();
+            if(rsTipoMascota.next()){
+                TipoMascota tipoMascota = new TipoMascota();
+                tipoMascota.setIdTipoMascota(rsTipoMascota.getInt("id_tipo_mascota"));
+                tipoMascota.setNombreTipoMascota(rsTipoMascota.getString("nombre"));
+                tipoMascota.setDescripcion(rsTipoMascota.getString("descripcion"));
+                tipoMascota.setArea(rsTipoMascota.getInt("id_area"));
+                return tipoMascota;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+
+    public boolean eliminarMascota(int idMascota){
+        String sql = "DELETE FROM mascota" +
+                     " WHERE id_mascota = ?;";
+        PreparedStatement stmtMascota = null;
+        try{
+            stmtMascota = conexion.prepareStatement(sql);
+            stmtMascota.setInt(1, idMascota);
+            int filas  = stmtMascota.executeUpdate();
+            return filas > 0;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
         }
     }
 }

@@ -16,6 +16,10 @@ public class Usuario implements ItemCardInterface{
     //constructor vacio para el ingreso de datos
     public Usuario(){}
 
+    public Usuario(String nombre) {
+        this.nombre = nombre;
+    }
+
     //constructor con parametros aunque no creo que se vaya a usar igual se declarará
     public Usuario(int idUsuario, String nombre, int edad, String nombreUsuario, String telefono, String correo, String contraseña, int idRol) {
         this.idUsuario = idUsuario;

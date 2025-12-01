@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -38,5 +39,7 @@
             <Font name="Algerian" size="33.0" />
          </font>
       </Label>
+      <FontAwesomeIcon glyphName="LOCK" layoutX="26.0" layoutY="366.0" />
+      <FontAwesomeIcon glyphName="USER" layoutX="26.0" layoutY="316.0" />
    </children>
 </AnchorPane>

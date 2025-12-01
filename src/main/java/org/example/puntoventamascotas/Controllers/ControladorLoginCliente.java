@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -16,12 +18,11 @@ import javafx.scene.Node;
 import org.example.puntoventamascotas.DAO.ConexionMsql;
 import org.example.puntoventamascotas.DAO.MascotaDAO;
 import org.example.puntoventamascotas.DAO.ProductosDAO;
-import org.example.puntoventamascotas.Models.ItemCardInterface;
-import org.example.puntoventamascotas.Models.Mascota;
-import org.example.puntoventamascotas.Models.Producto;
+import org.example.puntoventamascotas.Models.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 /* llegar a gc2*/
 
@@ -31,6 +32,7 @@ public class ControladorLoginCliente {
     ProductosDAO productosDAO;
     String tipoCategoria;
     String tipoArea;
+    Usuario usuario;
 
     //inicializacion de los nodos de fxml
     @FXML private Label labelPrecioBeagle;
@@ -40,6 +42,10 @@ public class ControladorLoginCliente {
     @FXML ScrollPane scrollPaneCards;
     @FXML ScrollPane scrollPaneMenuCliente;
     @FXML AnchorPane anchorPaneClienteMenu;
+    Carrito <Mascota> carritoMascotas = new Carrito();
+    Carrito <Producto> carritoProductos = new Carrito();
+
+
 
     public ControladorLoginCliente() {
         this.mascotaDAO = new MascotaDAO(ConexionMsql.getConnection());
@@ -51,7 +57,7 @@ public class ControladorLoginCliente {
     @FXML
     public void initialize() {
         comboBoxMasc_Prod.getItems().addAll("Mascotas",
-                "Productos");
+                                                  "Productos");
         comboBoxTipoMasc_Prod.getItems().addAll("Perros", "Gatos", "Aves", "Peces");
 
         /*Aqui se crea un listener con observable para cachar lo que tenga el combobox en tiempo real de la categoria*/
@@ -68,6 +74,7 @@ public class ControladorLoginCliente {
             } else if (tipoCategoria.equals("Productos")) {
                 try {
                     ObservableList<Producto> productosListaObs = FXCollections.observableArrayList(productosDAO.listarProductosByArea(tipoArea));
+                    System.out.println(productosListaObs);
                     crearCard(productosListaObs);
                 } catch (IOException e) {
                 }
@@ -135,7 +142,91 @@ public class ControladorLoginCliente {
             ControllerCard controllerCard = loader.getController();
             controllerCard.setData(item, "Cliente");
             flowPaneCard.getChildren().add(card);
+
+            if(tipoCategoria.equals("Productos")) {
+                //este llamado del metodo es donde asigna la informacion del producto
+                controllerCard.setOnInfo(itemCard -> {
+                    try {
+                        FXMLLoader loaderInfo = new FXMLLoader(getClass().getResource("/Views/InformacionModelo.fxml"));
+                        Parent root = loaderInfo.load();
+                        ControllerInformacionModelo controllerInformacionModelo = loaderInfo.getController();
+                        controllerInformacionModelo.setDataProductoInfo((Producto) itemCard);
+
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }else if(tipoCategoria.equals("Mascotas")) {
+                //Aqui es lo mismo de arriba pero con mascotas
+                controllerCard.setOnInfo(itemCard -> {
+                    try {
+                        FXMLLoader loaderInfo = new FXMLLoader(getClass().getResource("/Views/InformacionModelo.fxml"));
+                        Parent root = loaderInfo.load();
+                        ControllerInformacionModelo controllerInformacionModelo = loaderInfo.getController();
+                        controllerInformacionModelo.setDataMascotaInfo((Mascota) itemCard);
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+
+            //este metodo es para cuando el boton se presiona se agrega al carrito
+            controllerCard.setAddItemToCart(itemCard -> {
+                if(itemCard.getTipo().equals("Mascota")){
+                    /*el metodo stream() es de las listas y recorre la lista
+                    El anyMatch tiene una condicion y cuando se cumple termina y devuelve true*/
+                    Optional<Mascota> mascotaEncontrada = carritoMascotas.obtenerItems().stream()
+                            .filter(mascota -> mascota.getId() == itemCard.getId())
+                            .findFirst();
+                    if(mascotaEncontrada.isPresent()){
+                        Mascota m =  mascotaEncontrada.get();
+                        m.setCantidad(m.getCantidad() + 1);
+                    }else{
+                    //Se crea una lista (carrito) generico de tipo mascota
+                    //Se castea para que detecte las mascotas
+                    carritoMascotas.agregarItem((Mascota) itemCard);
+                    }
+                }else if(itemCard.getTipo().equals("Producto")) {
+                    //lo mismo aqui
+                    Optional<Producto> productoEncontrado = carritoProductos.obtenerItems().stream()
+                                    .filter(producto -> producto.getId() == itemCard.getId())
+                                    .findFirst();
+                    if(productoEncontrado.isPresent()){
+                        Producto p =  productoEncontrado.get();
+                        p.setCantidad(p.getCantidad() + 1);
+                    }else{
+                        carritoProductos.agregarItem((Producto) itemCard);
+                    }
+                }
+            });
         }
     }
+
+    @FXML
+    public void abrirCarrito() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/VerCarrito.fxml"));
+        Parent root = loader.load();
+        ControllerVerCarrito controllerVerCarrito = loader.getController();
+        controllerVerCarrito.crearCard(carritoMascotas.obtenerItems(), carritoProductos.obtenerItems());
+        controllerVerCarrito.setUsuario(usuario);
+        controllerVerCarrito.calcularTotal();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }
 

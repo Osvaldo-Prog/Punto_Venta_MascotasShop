@@ -64,8 +64,9 @@ public class MainController {
     // pues todo su control sera desde este controlador========================================================
 
     //metodo para validar si existe el usuario y de el acceso
-    // es boleano para de aqui ver si se abre la nueva ventana dependiendo quien inice sesion
-    public String procesarLogeo(){
+    // es Usuario para de aqui ver si se abre la nueva ventana dependiendo quien inice sesion
+    //pero se pudo que es de tipo Usuario para que regrese todo el usuario ya que se necesitara para el detalle venta y direccion
+    public Usuario procesarLogeo(){
             //listamos todos los usarios llamando la consulta con el dao
             List<Usuario> listaUsuarios = usuarioDAO.listarUsuarios();
             //validamos usuario y contraseña
@@ -79,12 +80,12 @@ public class MainController {
 
                     //si el usuario no tiene rol retorna nulo
                     if(usuario.getIdRol() == 0){
-                        return "Sin Rol";
+                        return new Usuario("Usuario Sin Rol");
                     }
-                    return "" + usuario.getIdRol();
+                    return usuario;
                 }
             }
-        return "Nombre de usuario o contraseña incorrectos";
+        return new Usuario("Nombre de usuario o contraseña incorrectos");
     }
 
 
@@ -92,22 +93,24 @@ public class MainController {
     //********aun falta validar quien inicio sesion********
     public void abrirVentanaDependiente(){
         boolean sonVacios = camposVacios(textFieldUsername, passwFieldContraseña);
-        String rolUsuario = procesarLogeo();
-        System.out.println(rolUsuario);
+        Usuario usuario = procesarLogeo();
+        System.out.println(usuario);
         if(sonVacios){
             MensajesVista.mostrarMensajeError("Error", "No se pudo iniciar sesión, todos los campos son obligatorios");
-        } else if(rolUsuario.equals("Nombre de usuario o contraseña incorrectos")){
+        } else if(usuario.getNombre().equals("Nombre de usuario o contraseña incorrectos")){
             MensajesVista.mostrarMensajeError("Error", "Nombre de usuario o contraseña incorrectos");
-        } else if(rolUsuario.equals("Sin Rol")){
+        } else if(usuario.getNombre().equals("Sin Rol")){
             MensajesVista.mostrarMensajeError("Error", "Usuario Sin Rol");
             //se pasa para comparar un 2 porque es el id de cliente en la BD
-        }else if(rolUsuario.equalsIgnoreCase("2")){
+        }else if(usuario.getIdRol() == 2){
             try{
                 //Se crea un FXMLoader para cargar la ventana enlazada
                 FXMLLoader loaderVentanaCliente = new FXMLLoader(getClass().getResource("/Views/VentanaLoginCliente.fxml"));
                 //Es como decir: "Carga mi archivo FXML y dame el panel principal"
                 //System.out.println(loaderVentanaCliente);
                 Parent root = loaderVentanaCliente.load();
+                ControladorLoginCliente controladorLoginCliente = loaderVentanaCliente.getController();
+                controladorLoginCliente.setUsuario(usuario);
 
                 //Se inicializa la ventana
                 Scene sceneVentanaCliente = new Scene(root);
@@ -121,7 +124,7 @@ public class MainController {
                 e.printStackTrace();
             }
             //aqui lo mismo pero con 1 porque es el id de admin en la BD
-        }else if(rolUsuario.equalsIgnoreCase("1")){
+        }else if(usuario.getIdRol() == 1){
             try{
                 //se crea el fxml para cargar la ventana
                 FXMLLoader loaderVentanaAdministrador = new FXMLLoader(getClass().getResource("/Views/VentanaLoginAdministrador.fxml"));

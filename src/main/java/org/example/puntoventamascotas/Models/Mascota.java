@@ -10,6 +10,8 @@ public class Mascota implements ItemCardInterface{
     private double precio;
     private String imagen;
     private int idTipoMascota;
+    //Se añade un atributo para verificar si ya existe en el carrito y si es asi se aumenta, es solo un contador
+    private int cantidad = 1;
 
     //constructor vacio
     public Mascota(){}
@@ -114,9 +116,15 @@ public class Mascota implements ItemCardInterface{
         return "Mascota";
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
 
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
-    //metodo toString
+//metodo toString
 
     @Override
     public String toString() {

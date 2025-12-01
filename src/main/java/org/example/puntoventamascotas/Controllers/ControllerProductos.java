@@ -107,9 +107,8 @@ public class ControllerProductos {
     @FXML
     public void updateProducto(){
         Producto productoModificado;
-        System.out.println(productos);
         //Se necesitó crear un metodo para obtener el id de tipoProducto segun el nombre del tipoProducto (Alimentos)
-        TipoProducto idTipoProducto = productosDAO.obtenerTipoProducto(tipoProducto);
+        TipoProducto idTipoProducto = productosDAO.obtenerTipoProductoByNombre(tipoProducto);
         if(banderaRegistrar){
             //aqui comienza el registro-------------------------------------------------------------------------------
             //aqui no se necesita el id porque es autoincrement entonces se añade solo
@@ -154,6 +153,8 @@ public class ControllerProductos {
         }
     }
 
+    //con este metodo validara si registrara
+    //y lo unico que hace es cambiar el texto del boton de guardar a registrar ya que se usa la misma UI
     public void isRegistrar(boolean vamohRegistrar){
         banderaRegistrar = vamohRegistrar;
         btnGuardar.setText("Registrar");

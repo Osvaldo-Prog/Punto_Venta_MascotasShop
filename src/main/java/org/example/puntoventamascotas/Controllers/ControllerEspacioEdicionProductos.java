@@ -18,6 +18,7 @@ import org.example.puntoventamascotas.DAO.ProductosDAO;
 import org.example.puntoventamascotas.Models.ItemCardInterface;
 import org.example.puntoventamascotas.Models.Producto;
 import org.example.puntoventamascotas.Util.MensajesVista;
+import org.example.puntoventamascotas.Controllers.ControllerInformacionModelo;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,11 +29,15 @@ public class ControllerEspacioEdicionProductos {
     @FXML private ScrollPane scrollPaneEdicion;
     @FXML private FlowPane flowPaneEdicionProductos;
     ControladorLoginAdministrador controladorLoginAdministrador;
+    ControllerProductos controllerProductos;
+    ControllerInformacionModelo controllerInformacionModelo;
 
 
     public ControllerEspacioEdicionProductos(){
         this.productosDAO = new ProductosDAO(ConexionMsql.getConnection());
         this.controladorLoginAdministrador = new ControladorLoginAdministrador();
+        this.controllerProductos = new ControllerProductos();
+        this.controllerInformacionModelo = new ControllerInformacionModelo();
     }
 
     //metodo para cerrar la ventana
@@ -95,7 +100,7 @@ public class ControllerEspacioEdicionProductos {
                 });
 
                 controllerCardProductos.setOnEliminar(itemCard -> {
-                    boolean siBorrar = MensajesVista.mostrarMensajeConfirmacion("¿Seguro?", "Confirma el borrado");
+                    boolean siBorrar = MensajesVista.mostrarMensajeConfirmacion("¿Seguro?", "¿Estas seguro de que quieres borrar el producto?");
                     if (siBorrar) {
                         productosDAO.eliminarProducto(itemCard.getId());
                         MensajesVista.mostrarMensajeExito("Exito", "Producto eliminado con éxito");
@@ -108,6 +113,19 @@ public class ControllerEspacioEdicionProductos {
                 });
 
                 controllerCardProductos.setOnInfo(itemCard -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/InformacionModelo.fxml"));
+                        Parent root = loader.load();
+                        ControllerInformacionModelo controllerInformacionModelo = loader.getController();
+                        controllerInformacionModelo.setDataProductoInfo((Producto) itemCard);
+
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
 
                 flowPaneEdicionProductos.getChildren().add(cards);

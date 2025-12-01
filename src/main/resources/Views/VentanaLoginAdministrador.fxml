@@ -62,7 +62,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="263.0">
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="251.0" spacing="90.0">
                <children>
                   <Button fx:id="botonSalir" mnemonicParsing="false" onAction="#cerrarVentanaActual" prefHeight="25.0" prefWidth="56.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to left, mediumpurple, hotpink); -fx-border-color: red; -fx-border-radius: 20;" text="Salir">
                      <font>
@@ -71,6 +71,14 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to left, mediumpurple, pink); -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Detalles Ventas">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon glyphName="CIRCLE-INFO" />
+                     </graphic>
                   </Button>
                </children>
                <VBox.margin>
@@ -82,6 +90,6 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </opaqueInsets>
       </VBox>
-      <AnchorPane fx:id="anchorPaneEdicion" layoutX="338.0" layoutY="10.0" prefHeight="724.0" prefWidth="935.0" />
+      <AnchorPane fx:id="anchorPaneEdicion" layoutX="321.0" layoutY="10.0" prefHeight="724.0" prefWidth="952.0" />
     </children>
 </AnchorPane>

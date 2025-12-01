@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="VboxCard" prefHeight="208.0" prefWidth="183.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCard">
+<VBox fx:id="VboxCard" prefHeight="260.0" prefWidth="183.0" spacing="5.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCard">
     <children>
         <Label fx:id="labelNombre" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="247.0" text="NombreMascota" underline="true" wrapText="true">
          <font>
@@ -27,18 +27,27 @@
       </HBox>
         <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="231.0" spacing="20.0">
             <children>
-                <Button fx:id="botonComprar" mnemonicParsing="false" text="Comprar" />
                 <Button fx:id="botonInfo" mnemonicParsing="false" text="Informacion" />
             </children>
         </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+                <Button fx:id="botonComprar" alignment="CENTER" mnemonicParsing="false" text="Comprar" />
+         </children>
+      </HBox>
         <Label fx:id="labelPrecio" alignment="CENTER" prefHeight="17.0" prefWidth="190.0" text="Precio" />
       <Label fx:id="lblTelefono" alignment="CENTER" prefHeight="17.0" prefWidth="246.0" />
       <Label fx:id="labelStockProducto" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="stock" visible="false" />
-      <HBox fx:id="hBoxBtnEdicion" alignment="CENTER" prefHeight="31.0" prefWidth="229.0">
+      <HBox fx:id="hBoxBtnEdicion" alignment="CENTER" prefHeight="31.0" prefWidth="229.0" spacing="40.0">
          <children>
             <Button fx:id="btnEdicion" mnemonicParsing="false">
                <graphic>
                   <FontAwesomeIcon glyphName="PENCIL" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnAgregarToCarrito" mnemonicParsing="false">
+               <graphic>
+                  <FontAwesomeIcon glyphName="HEART" />
                </graphic>
             </Button>
             <Button fx:id="btnEliminar" mnemonicParsing="false">

@@ -14,6 +14,9 @@ import org.example.puntoventamascotas.Models.Usuario;
 
 import java.util.function.Consumer;
 
+/*En este controlador se controla el card, dado el caso
+* se controlan sus botones directemente desde aquí
+* con los Consumer*/
 public class ControllerCard {
     @FXML private VBox VboxCard;
     @FXML private Label labelNombre;
@@ -25,15 +28,17 @@ public class ControllerCard {
     @FXML private Label labelStockProducto;
     @FXML private Button btnEdicion;
     @FXML private Button btnEliminar;
+    @FXML private Button btnAgregarToCarrito;
     @FXML private HBox hBoxBtnEdicion;
     private Consumer<ItemCardInterface> onEdicion;
     private Consumer<ItemCardInterface> onComprar;
     private Consumer<ItemCardInterface> onInfo;
     private Consumer<ItemCardInterface> onEliminar;
+    private Consumer<ItemCardInterface> onAddItemToCart;
     private ItemCardInterface itemCard;
 
 
-    //metodo para darle getIdTipoProducto datos a la card(de forma generica entre mascotas y productos)========================================================
+    //metodo para darle getIdTipoProducto datos a la card(de forma generica entre mascotas, productos y usuarios)========================================================
     public void setData(ItemCardInterface item, String tipoUsuario){
         this.itemCard = item;
         lblTelefono.setVisible(false);
@@ -63,24 +68,43 @@ public class ControllerCard {
         //pasa lo mismo que en el caso de arriba
         if(tipoUsuario.equals("Administrador")){
             if(item.getTipo().equals("Usuario")){
-                Usuario usuario = (Usuario)item;
+                Usuario usuario = (Usuario) item;
+                btnAgregarToCarrito.setVisible(false);
                 lblTelefono.setVisible(true);
                 botonComprar.setVisible(false);
                 botonInfo.setVisible(false);
                 labelNombre.setText(usuario.getNombreUsuario());
                 labelPrecio.setText(usuario.getEdad() + " años");
                 lblTelefono.setText("Celular: " + usuario.getTelefono());
+                labelStockProducto.setVisible(true);
+                //se le asigna una imagen por defecto solo para aue aparezcan en el card ya que no se cargan imagenes pa usuario
                 imageView.setImage(new Image(getClass().getResourceAsStream("/Imagenes/user.png")));
                 labelStockProducto.setText(usuario.getCorreo());
             }
+            btnAgregarToCarrito.setVisible(false);
             botonComprar.setVisible(false);
             hBoxBtnEdicion.setVisible(true);
             btnEdicion.setVisible(true);
             btnEliminar.setVisible(true);
         }else if(tipoUsuario.equals("Cliente")){
-            hBoxBtnEdicion.setVisible(false);
+            btnAgregarToCarrito.setVisible(true);
             btnEdicion.setVisible(false);
             btnEliminar.setVisible(false);
+        } else if (tipoUsuario.equals("Carrito")) {
+            if(item.getTipo().equals("Mascota")) {
+                Mascota mascota = (Mascota) item;
+                lblTelefono.setText("Cantidad: " + mascota.getCantidad());
+            }else if(item.getTipo().equals("Producto")){
+                Producto producto = (Producto) item;
+                lblTelefono.setText("Cantidad: " + producto.getCantidad());
+            }
+            btnEdicion.setVisible(false);
+            btnEliminar.setVisible(false);
+            btnAgregarToCarrito.setVisible(false);
+            botonComprar.setVisible(false);
+            botonInfo.setVisible(false);
+            lblTelefono.setVisible(true);
+            labelStockProducto.setVisible(false);
         }
     }
 
@@ -103,6 +127,11 @@ public class ControllerCard {
     //lo mismo que el anterior=================================================================================================================
     public void setOnInfo(Consumer<ItemCardInterface> onInfo){
         this.onInfo = onInfo;
+    }
+
+    //lo mismo que lo anterior
+    public void setAddItemToCart(Consumer<ItemCardInterface> onAddItemToCart){
+        this.onAddItemToCart = onAddItemToCart;
     }
 
     //===========================================================================================================================================
@@ -131,6 +160,12 @@ public class ControllerCard {
         botonInfo.setOnAction(e -> {
             if(onInfo != null){
                 onInfo.accept(this.itemCard);
+            }
+        });
+
+        btnAgregarToCarrito.setOnAction(e -> {
+            if(onAddItemToCart != null){
+                onAddItemToCart.accept(this.itemCard);
             }
         });
     }

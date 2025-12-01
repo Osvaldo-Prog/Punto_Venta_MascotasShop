@@ -43,11 +43,10 @@ public class ProductosDAO {
         return productosLista;
     }
 
-    //metodo para obtener el id del tip de producto segun el nombre
-    public TipoProducto obtenerTipoProducto(String nombre){
+    //metodo para obtener el id del tipo de producto segun el nombre
+    public TipoProducto obtenerTipoProductoByNombre(String nombre){
         String sqlListar = "SELECT * FROM tipo_producto" +
                            " WHERE nombre = ?;";
-
         PreparedStatement stmtsTipoProducto = null;
         ResultSet rsTipoProducto = null;
         try{
@@ -69,6 +68,8 @@ public class ProductosDAO {
         }
     }
 
+    //este metodo es para traer el id del tipo de producto mediante el id que ya tiene seleccionado el producto
+    //se usa en el setData para asignarle los datos al formulario
     public TipoProducto obtenerNombreTipoProductoPorId(int idTipoProducto){
         String sql = "SELECT *" +
                      " FROM tipo_producto" +
@@ -99,7 +100,7 @@ public class ProductosDAO {
         List<Producto> productosLista = new ArrayList<>();
         String sqlListar = "SELECT * " +
                            " FROM producto" +
-                           " INNER JOIN tipo_producto on tipo_producto.id_tipo_producto = tipo_producto.id_tipo_producto" +
+                           " INNER JOIN tipo_producto on tipo_producto.id_tipo_producto = producto.id_tipo_producto" +
                            " Inner Join categoria_producto on categoria_producto.id_categoria = tipo_producto.id_categoria" +
                            " INNER JOIN area on area.id_area = categoria_producto.id_area" +
                            " WHERE area.nombre = ?";
@@ -186,6 +187,53 @@ public class ProductosDAO {
             stmtsProducto = conexion.prepareStatement(sql);
             stmtsProducto.setInt(1, idProducto);
             int filas =  stmtsProducto.executeUpdate();
+            return (filas > 0);
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //Metodo para obtener el la info del producto mediante el id que se selecciono en el card
+    public Producto obtenerInfoProducto(int idProducto){
+        String sql = "SELECT * FROM producto" +
+                     " WHERE id_producto = ?;";
+        PreparedStatement stmtsProducto = null;
+        ResultSet rsProducto = null;
+        try{
+            stmtsProducto = conexion.prepareStatement(sql);
+            stmtsProducto.setInt(1, idProducto);
+            rsProducto = stmtsProducto.executeQuery();
+            if(rsProducto.next()){
+                //aqui se usara un constructor sin el id de producto y sin el de tipo de producto
+                // porque solo mostrara info que el cliente pueda ver y entender
+                Producto producto = new Producto(
+                        rsProducto.getInt("id_producto"),
+                        rsProducto.getString("nombre"),
+                        rsProducto.getString("descripcion"),
+                        rsProducto.getDouble("precio"),
+                        rsProducto.getInt("stock"),
+                        rsProducto.getString("imagen"),
+                        rsProducto.getInt("id_tipo_producto")
+                );
+                return producto;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateStock(int idProducto, int nuevoStock){
+        String sql = "UPDATE producto" +
+                     " SET stock = ?" +
+                     " WHERE id_producto = ?;";
+        PreparedStatement stmtUpdateStock = null;
+        try{
+            stmtUpdateStock = conexion.prepareStatement(sql);
+            stmtUpdateStock.setInt(1, nuevoStock);
+            stmtUpdateStock.setInt(2, idProducto);
+            int filas =  stmtUpdateStock.executeUpdate();
             return (filas > 0);
         }catch (SQLException e){
             e.printStackTrace();
