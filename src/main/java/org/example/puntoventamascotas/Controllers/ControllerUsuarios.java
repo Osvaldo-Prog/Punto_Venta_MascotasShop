@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.example.puntoventamascotas.DAO.ConexionMsql;
 import org.example.puntoventamascotas.DAO.UsuarioDAO;
@@ -15,6 +14,8 @@ import org.example.puntoventamascotas.Models.ItemCardInterface;
 import org.example.puntoventamascotas.Models.Usuario;
 import org.example.puntoventamascotas.Util.MensajesVista;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.regex.Pattern;
 
 public class ControllerUsuarios {
 
@@ -38,6 +39,13 @@ public class ControllerUsuarios {
     Usuario usuario;
     UsuarioDAO usuarioDAO;
     boolean banderaRegistrar = false;
+    //variable de expresion regular para que el correo sea correcto
+    final String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9]+\\.[A-Za-z]{2,}$";
+    //este es para corroborar que el correo tenga los caracteres que son
+    final Pattern EMAIL_PATTERN = Pattern.compile(emailRegex);
+    //String que guarda lo que debe llevar la contraseña, igual con expresión regular
+    final String contraseñaRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
+    final Pattern contraseñaPattern = Pattern.compile(contraseñaRegex);
 
 
     public ControllerUsuarios() {
@@ -84,24 +92,46 @@ public class ControllerUsuarios {
         System.out.println(usuario);
         //en el if va a registrar, aqui empiea el registro---------------------------------------------------
         if (banderaRegistrar) {
-            String contraseñaNormalRegistro;
-            String contraseñaHasheadaRegistro;
-            contraseñaNormalRegistro = pswContraseña.getText();
-            contraseñaHasheadaRegistro = passwordHash(contraseñaNormalRegistro);
-
-            usuarioModificado = new Usuario(
-                    txtNombre.getText(),
-                    Integer.parseInt(txtEdad.getText()),
-                    txtNombreUsuario.getText(),
-                    txtTelefono.getText(),
-                    txtCorreo.getText(),
-                    contraseñaHasheadaRegistro,
-                    idRol
-            );
-            if (usuarioDAO.insertarUsuario(usuarioModificado, idRol)) {
-                MensajesVista.mostrarMensajeExito("Exito", "Simon registro");
+            boolean sonCamposVacios = sonVacios(txtNombre, txtNombreUsuario, pswContraseña, txtEdad, txtCorreo, txtTelefono);
+            boolean existeUsuario = existeNombreUsuario(txtNombreUsuario.getText());
+            boolean existeCorreo = existeCorreoElectronico(txtCorreo.getText());
+            boolean emailValido = validarEmail(txtCorreo);
+            boolean esContraseñaSegura = validarFortalezaContraseña(pswContraseña);
+            boolean existeTelefono = existeTelefonoUsuario(txtTelefono.getText());
+            if (sonCamposVacios) {
+                MensajesVista.mostrarMensajeError("Error", "Todos los campos son obligatorios");
+            } else if (existeUsuario) {
+                MensajesVista.mostrarMensajeError("Error", "El nombre de usuario existe");
+            } else if (!esContraseñaSegura) {
+                MensajesVista.mostrarMensajeError("Error", "La contraseña no es segura");
+            } else if (!emailValido) {
+                MensajesVista.mostrarMensajeError("Error", "El correo no tiene la estructura válida");
+            } else if (existeCorreo) {
+                MensajesVista.mostrarMensajeError("Error", "El correo ya está registrado");
+            } else if (existeTelefono) {
+                MensajesVista.mostrarMensajeError("Error", "El teléfono ya está registrado");
             } else {
-                MensajesVista.mostrarMensajeError("Exito", "Nel registro");
+
+                String contraseñaNormalRegistro;
+                String contraseñaHasheadaRegistro;
+                contraseñaNormalRegistro = pswContraseña.getText();
+                contraseñaHasheadaRegistro = passwordHash(contraseñaNormalRegistro);
+
+
+                usuarioModificado = new Usuario(
+                        txtNombre.getText(),
+                        Integer.parseInt(txtEdad.getText()),
+                        txtNombreUsuario.getText(),
+                        txtTelefono.getText(),
+                        txtCorreo.getText(),
+                        contraseñaHasheadaRegistro,
+                        idRol
+                );
+                if (usuarioDAO.insertarUsuario(usuarioModificado, idRol)) {
+                    MensajesVista.mostrarMensajeExito("Exito", "Se registró correctamente");
+                } else {
+                    MensajesVista.mostrarMensajeError("Exito", "Hubo un error en el registro");
+                }
             }
             //aqui termina el registro--------------------------------------------------------------
         } else {
@@ -148,6 +178,7 @@ public class ControllerUsuarios {
         }
     }
 
+
     //este metodo es para que el boton de guardar sepa si es de registro o no
     //ya que se carga la misma interfaz que para el update
     public void isRegistrar(boolean vamohAregistrar) {
@@ -159,5 +190,58 @@ public class ControllerUsuarios {
     //metodo para hashear la contraseña con ByCrypt==========================================================================
     public String passwordHash(String psw) {
         return BCrypt.hashpw(psw.trim(), BCrypt.gensalt());
+    }
+
+    //Metodo para validar que los campos no estan vacios========================================================================
+    /*Usado en:
+     * Metodo de procesarRegistro();*/
+    public boolean sonVacios(TextField txtNombre, TextField txtNombreUsuario,
+                             PasswordField pswContraseña, TextField txtCorreo,
+                             TextField txtEdad, TextField txtTelefono) {
+        //Verifica si al menos un campo esta vacio
+        if (txtNombre.getText().trim().isEmpty() || txtNombreUsuario.getText().trim().isEmpty()
+                || pswContraseña.getText().trim().isEmpty() || txtEdad.getText().trim().isEmpty() || txtTelefono.getText().trim().isEmpty()
+                || txtCorreo.getText().trim().isEmpty() || comboBoxTipoUsuario.getValue() == null) {
+            //retornar verdadero de que son vacios
+            return true;
+        }
+        //y falso porque no son vacios
+        return false;
+    }
+
+    //Metodo sencillo para validar si existe el nombre de usuario=====================================================================================
+    public boolean existeNombreUsuario(String textFieldNombreUsuario) {
+        return usuarioDAO.nombreUsuarioExiste(textFieldNombreUsuario);
+    }
+
+    //Metodo sencillo para validar si existe el email=================================================================================================
+    public boolean existeCorreoElectronico(String textFieldCorreoElectronico) {
+        return usuarioDAO.correoExistente(textFieldCorreoElectronico);
+    }
+
+    //metodo para validar el email============================================================================================================
+    public boolean validarEmail(TextField email) {
+        if (email.getText() == null) {
+            return false;
+        }
+        /*este return es para que con el matcher valide lo que tenia el textfield del email
+        el EMAIL_PATTERN es la variable que tiene ya guardado el patron de la exp regular
+        el matches es un metodo boleano del matcher y si coincide lo comparado retorna true
+        matcher -> es un objeto que compara la expresión regular con un texto específico.
+         */
+        return EMAIL_PATTERN.matcher(email.getText()).matches();
+    }
+
+    //Metodo para validar la fortaleza de la contraseña===========================================================================================
+    public boolean validarFortalezaContraseña(TextField password) {
+        if (password.getText() == null) {
+            return false;
+        }
+        return contraseñaPattern.matcher(password.getText().trim()).matches();
+    }
+
+    //Metodo para verificar si el numero de telefono existe=========================================================================================
+    public boolean existeTelefonoUsuario(String textFieldTelefonoUsuario) {
+        return usuarioDAO.existeNumeroTelefono(textFieldTelefonoUsuario);
     }
 }

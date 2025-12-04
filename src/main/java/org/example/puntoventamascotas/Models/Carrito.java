@@ -15,8 +15,16 @@ public class Carrito <T> {
         this.items.add(item);
     }
 
+    public void eliminarItem(T item){
+        this.items.remove(item);
+    }
+
     public List<T> obtenerItems(){
         return items;
+    }
+
+    public void eliminarItems(){
+        items.clear();
     }
 
 }

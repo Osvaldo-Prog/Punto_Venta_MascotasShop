@@ -45,6 +45,18 @@ public class Producto implements ItemCardInterface{
         this.idTipoProducto = idTipoProducto;
     }
 
+    public Producto(int idProducto, String nombre, String imagen) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.imagen = imagen;
+    }
+
+    public Producto(String imagen, int cantidad) {
+        this.imagen = imagen;
+        this.cantidad = cantidad;
+    }
+
+
     //GETTERS Y SETTERS
 
     //get y set del id del producto

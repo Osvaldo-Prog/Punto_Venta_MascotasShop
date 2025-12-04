@@ -35,8 +35,11 @@ public class Mascota implements ItemCardInterface{
         this.precio = precio;
         this.imagen = imagen;
         this.idTipoMascota = idTipoMascota;
+    }
 
-
+    public Mascota(String imagen, int cantidad){
+        this.imagen = imagen;
+        this.cantidad = cantidad;
     }
 
     //GETTERS Y SETTERS

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,7 +26,7 @@ public class ControllerMascotas {
     @FXML
     TextField txtNombre;
     @FXML
-    TextField txtDescripcion;
+    TextArea txtDescripcion;
     @FXML
     TextField txtCuidados;
     @FXML
@@ -120,18 +121,24 @@ public class ControllerMascotas {
         TipoMascota idTipoMascota = mascotaDAO.obtenerTipoMascotaByNombre(tipoMascota);
         //aqui empieza el registro---------------------------------------------------------------
         if (banderaRegistrar) {
-            mascotaModificada = new Mascota(
-                    txtNombre.getText(),
-                    txtDescripcion.getText(),
-                    txtCuidados.getText(),
-                    Double.parseDouble(txtPrecio.getText()),
-                    nombreImagen.equals("") ? mascota.getImagen() : nombreImagen,
-                    idTipoMascota.getIdTipoMascota()
-            );
-            if (mascotaDAO.insertarMascota(mascotaModificada)) {
-                MensajesVista.mostrarMensajeExito("Exito", "Se registró la mascota correctamente");
-            } else {
-                MensajesVista.mostrarMensajeError("Error", "Ocurrió un error en el registro");
+            boolean sonCamposVacios = sonVacios(txtNombre, txtPrecio);
+            if (sonCamposVacios) {
+                MensajesVista.mostrarMensajeError("Error", "El nombre, precio, tipo de mascota e imagen son obligatorios");
+            }else {
+                mascotaModificada = new Mascota(
+                        txtNombre.getText(),
+                        txtDescripcion.getText(),
+                        txtCuidados.getText(),
+                        Double.parseDouble(txtPrecio.getText()),
+                        nombreImagen.equals("") ? mascota.getImagen() : nombreImagen,
+                        idTipoMascota.getIdTipoMascota()
+                );
+                if (mascotaDAO.insertarMascota(mascotaModificada)) {
+                    MensajesVista.mostrarMensajeExito("Exito", "Se registró la mascota correctamente");
+                    limpiarCampos();
+                } else {
+                    MensajesVista.mostrarMensajeError("Error", "Ocurrió un error en el registro");
+                }
             }
             //aqui termina el registro-------------------------------------------------------------
         } else {
@@ -162,4 +169,28 @@ public class ControllerMascotas {
         banderaRegistrar = vamohRegistrar;
         btnGuardar.setText("Registrar");
     }
+
+    public boolean sonVacios(TextField txtNombre, TextField txtPrecio){
+        if(txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty()
+           || comboBoxTipoMascota.getValue() == null || imgSubir.getImage() == null){
+            return true;
+        }
+        return false;
+    }
+    //metodo para cerrar la venta cuando se registre nueva mascota
+    public void cerrarVenatanActual() {
+        Stage stage = (Stage) btnGuardar.getScene().getWindow(); // btnGuardar o cualquier nodo de tu ventana
+        stage.close();
+    }
+
+    //metodo para limpiar campos
+    public void limpiarCampos(){
+        txtNombre.clear();
+        txtPrecio.clear();
+        txtDescripcion.clear();
+        txtCuidados.clear();
+        comboBoxTipoMascota.setValue(null);
+        imgSubir.setImage(null);
+    }
+
 }

@@ -7,6 +7,7 @@ module org.example.puntoventamascotas {
     requires javafx.graphics;
     requires java.desktop;
     requires javafx.base;
+    requires jdk.security.jgss;
 
     // Agrega estas líneas:
     opens org.example.puntoventamascotas.Controllers to javafx.fxml;

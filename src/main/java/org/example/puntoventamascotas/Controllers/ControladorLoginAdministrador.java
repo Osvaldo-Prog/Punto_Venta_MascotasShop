@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -82,6 +84,57 @@ public class ControladorLoginAdministrador {
             anchorPaneEdicion.setBottomAnchor(pane, 0.0);
         }catch (Exception e){
             throw new RuntimeException(e);
+        }
+    }
+
+    //Metodo para abrir la tabla de ventas
+    @FXML
+    public void abrirTablaVentas(){
+        try{
+            FXMLLoader loaderTabla = new FXMLLoader(getClass().getResource("/Views/TablaVentasInfo.fxml"));
+            Parent root = loaderTabla.load();
+            ControllerTablaVentasInfo controllerTablaVentasInfo = loaderTabla.getController();
+            controllerTablaVentasInfo.cargarVentas();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Metodo para abrir la ventana de ranking
+    @FXML
+    public void abrirTopProductos(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/RankingPopularVentas.fxml"));
+            Parent root = loader.load();
+            ControllerRankingPopularVentas controllerRankingPopularVentas = loader.getController();
+            controllerRankingPopularVentas.cargarRanking("Productos");
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //
+    @FXML
+    public void abrirTopMascotas(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/RankingPopularVentas.fxml"));
+            Parent root = loader.load();
+            ControllerRankingPopularVentas controllerRankingPopularVentas = loader.getController();
+            controllerRankingPopularVentas.cargarRanking("Mascotas");
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

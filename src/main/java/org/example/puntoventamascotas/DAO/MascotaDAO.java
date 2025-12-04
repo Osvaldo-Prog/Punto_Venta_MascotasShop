@@ -186,4 +186,32 @@ public class MascotaDAO {
             return false;
         }
     }
+
+    //Metodo para rankear las mascotas de las mas adoptdas==================================================================
+    public List<Mascota> RenkearMascotasMasAdoptadas(){
+        List<Mascota> listaMascotasRankeadas = new ArrayList<>();
+        String sql = "SELECT mascota.imagen, SUM(detalle_venta.cantidad) as Total_Ventas_Mascotas" +
+                " from detalle_venta" +
+                " INNER JOIN item on item.id_item = detalle_venta.id_item" +
+                " INNER JOIN mascota ON item.id_mascota = mascota.id_mascota" +
+                " WHERE item.id_mascota IS NOT NULL" +
+                " GROUP BY mascota.imagen" +
+                " ORDER BY Total_Ventas_Mascotas desc;";
+        PreparedStatement stmtMascota = null;
+        ResultSet rsMascota = null;
+        try{
+            stmtMascota = conexion.prepareStatement(sql);
+            rsMascota = stmtMascota.executeQuery();
+            while(rsMascota.next()){
+                listaMascotasRankeadas.add( new Mascota(
+                        rsMascota.getString("imagen"),
+                        rsMascota.getInt("Total_Ventas_Mascotas")
+                ));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return listaMascotasRankeadas;
+    }
+
 }

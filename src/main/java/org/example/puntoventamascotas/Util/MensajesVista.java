@@ -39,4 +39,23 @@ public class MensajesVista {
             return false;
         }
     }
+
+    public static void mostrarMensajeTemporal(String titulo, String mensaje, int milisegundos) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(titulo);
+            alert.setHeaderText(null);
+            alert.setContentText(mensaje);
+
+            alert.show(); // <- No bloquea
+
+            // Cerrar después del tiempo indicado
+            javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(
+                    javafx.util.Duration.millis(milisegundos)
+            );
+            delay.setOnFinished(event -> alert.close());
+            delay.play();
+        });
+    }
+
 }

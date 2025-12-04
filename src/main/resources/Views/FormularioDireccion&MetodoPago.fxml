@@ -12,8 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="394.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerFormDireccionMetodoPago">
+<AnchorPane prefHeight="394.0" prefWidth="388.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerFormDireccionMetodoPago">
    <children>
       <AnchorPane layoutX="43.0" layoutY="14.0" prefHeight="331.0" prefWidth="302.0">
          <children>
@@ -43,16 +42,16 @@
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="141.0" text="Ciudad" GridPane.rowIndex="5" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="195.0" text="Estado" GridPane.rowIndex="6" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="172.0" text="Pais" GridPane.rowIndex="7" />
-                  <TextField fx:id="txtCalle" text="Soledad" GridPane.columnIndex="1" />
-                  <TextField fx:id="txtNumExt" text="55" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtNumInter" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="txtColonia" text="Lomas Verdes" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="txtCP" text="38650" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="txtCiudad" text="Acambaro" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField fx:id="txtEstado" text="Guanajuato" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <TextField fx:id="txtPais" text="Mexico" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField fx:id="txtCalle" style="-fx-border-color: black;" text="Soledad" GridPane.columnIndex="1" />
+                  <TextField fx:id="txtNumExt" style="-fx-border-color: black;" text="55" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtNumInter" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtColonia" style="-fx-border-color: black;" text="Lomas Verdes" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtCP" style="-fx-border-color: black;" text="38650" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txtCiudad" style="-fx-border-color: black;" text="Acambaro" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="txtEstado" style="-fx-border-color: black;" text="Guanajuato" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="txtPais" style="-fx-border-color: black;" text="Mexico" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="197.0" text="Tipo de pago" GridPane.rowIndex="8" />
-                  <ComboBox fx:id="comboxMetodoPago" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="comboxMetodoPago" prefWidth="150.0" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                </children>
             </GridPane>
             <Label layoutX="124.0" layoutY="6.0" text="Direccion" underline="true">
@@ -64,7 +63,7 @@
       </AnchorPane>
       <HBox layoutX="7.0" layoutY="345.0" prefHeight="31.0" prefWidth="374.0" spacing="265.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
             <Button mnemonicParsing="false" onAction="#pagar" text="Pagar" />
          </children>
       </HBox>

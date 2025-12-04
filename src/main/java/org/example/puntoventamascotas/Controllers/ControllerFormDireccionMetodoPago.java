@@ -1,8 +1,11 @@
 package org.example.puntoventamascotas.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.example.puntoventamascotas.DAO.*;
 import org.example.puntoventamascotas.Models.*;
 import org.example.puntoventamascotas.Util.MensajesVista;
@@ -40,6 +43,7 @@ public class ControllerFormDireccionMetodoPago {
     boolean ticketExitoso;
     Usuario usuario;
     List<ItemCardInterface> listaItems;
+    ItemCardInterface itemCard;
 
     public ControllerFormDireccionMetodoPago() {
         metodoPagoDAO = new MetodoPagoDAO(ConexionMsql.getConnection());
@@ -59,8 +63,17 @@ public class ControllerFormDireccionMetodoPago {
         });
     }
 
+    //metodo para cerrar la ventana actual=========================================================================
+    @FXML
+    private void cerrarVentana(ActionEvent actionEvent) {
+        //obtener el stage actual para cerrar
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.close();
+    }
+
     @FXML
     public void pagar() {
+        ControllerCard controllerCard = new ControllerCard();
         ProcesadorVenta procesadorVenta = new ProcesadorVenta();
         MetodoPago metodoPago = new MetodoPago();
         metodoPago = metodoPagoDAO.obtenerMetodoPagoByNombre(tipoMetodoPago);
@@ -97,29 +110,73 @@ public class ControllerFormDireccionMetodoPago {
                 if (idVenta != -1) {
                     MensajesVista.mostrarMensajeExito("Exito", "Se ha realizado la compra");
                     /*En todo este paso se estan creando los items pero el mismo item sabra si es
-                     * de mascota o de producto*/
-                    for (ItemCardInterface item : listaItems) {
-                        Item cosa = null;
-                        DetalleVenta detalleVenta = null;
-                        if (item.getTipo().equals("Mascota")) {
-                            Mascota mascota = (Mascota) item;
-                            cosa = new Item(
+                     * de mascota o de producto, ademas este solo funciona para el carrito*/
+                    //Esto quiere decir que si la lista contiene algo inserte la lista al detalle venta
+                    if (listaItems != null) {
+                        for (ItemCardInterface item : listaItems) {
+                            Item cosa = null;
+                            DetalleVenta detalleVenta = null;
+                            if (item.getTipo().equals("Mascota")) {
+                                Mascota mascota = (Mascota) item;
+                                cosa = new Item(
+                                        mascota.getNombre(),
+                                        0,
+                                        mascota.getId(),
+                                        mascota.getTipo()
+                                );
+                                int idItem = detalleVentaDAO.registrarItem(cosa);
+                                detalleVenta = new DetalleVenta(
+                                        idVenta,
+                                        idItem,
+                                        mascota.getCantidad(),
+                                        mascota.getPrecio(),
+                                        mascota.getPrecio() * mascota.getCantidad()
+                                );
+                            } else if (item.getTipo().equals("Producto")) {
+                                Producto producto = (Producto) item;
+                                cosa = new Item(
+                                        producto.getNombre(),
+                                        producto.getId(),
+                                        0,
+                                        producto.getTipo()
+                                );
+                                int nuevoStock = producto.getStock() - producto.getCantidad();
+                                producto.setStock(nuevoStock);
+                                productosDAO.updateStock(producto.getId(), nuevoStock);
+                                int idItem = detalleVentaDAO.registrarItem(cosa);
+                                detalleVenta = new DetalleVenta(
+                                        idVenta,
+                                        idItem,
+                                        producto.getCantidad(),
+                                        producto.getPrecio(),
+                                        producto.getPrecio() * producto.getCantidad()
+                                );
+                            }
+                            ticketExitoso = detalleVentaDAO.registrarDetalleVenta(detalleVenta);
+                            System.out.println(ticketExitoso);
+                        }
+                        //este quiere decir que la lista está vacía y no insertará la lista si no el item individual
+                    } else {
+                        if (itemCard.getTipo().equals("Mascota")) {
+                            Mascota mascota = (Mascota) itemCard;
+                            Item cosa = new Item(
                                     mascota.getNombre(),
                                     0,
                                     mascota.getId(),
                                     mascota.getTipo()
                             );
                             int idItem = detalleVentaDAO.registrarItem(cosa);
-                            detalleVenta = new DetalleVenta(
+                            DetalleVenta detalleVenta = new DetalleVenta(
                                     idVenta,
                                     idItem,
-                                    mascota.getCantidad(),
+                                    1,
                                     mascota.getPrecio(),
-                                    mascota.getPrecio() * mascota.getCantidad()
+                                    mascota.getPrecio()
                             );
-                        } else if (item.getTipo().equals("Producto")) {
-                            Producto producto = (Producto) item;
-                            cosa = new Item(
+                            ticketExitoso = detalleVentaDAO.registrarDetalleVenta(detalleVenta);
+                        } else if (itemCard.getTipo().equals("Producto")) {
+                            Producto producto = (Producto) itemCard;
+                            Item cosa = new Item(
                                     producto.getNombre(),
                                     producto.getId(),
                                     0,
@@ -129,15 +186,15 @@ public class ControllerFormDireccionMetodoPago {
                             producto.setStock(nuevoStock);
                             productosDAO.updateStock(producto.getId(), nuevoStock);
                             int idItem = detalleVentaDAO.registrarItem(cosa);
-                            detalleVenta = new DetalleVenta(
+                            DetalleVenta detalleVenta = new DetalleVenta(
                                     idVenta,
                                     idItem,
-                                    producto.getCantidad(),
+                                    1,
                                     producto.getPrecio(),
-                                    producto.getPrecio() * producto.getCantidad()
+                                    producto.getPrecio()
                             );
+                            ticketExitoso = detalleVentaDAO.registrarDetalleVenta(detalleVenta);
                         }
-                        ticketExitoso = detalleVentaDAO.registrarDetalleVenta(detalleVenta);
                     }
                     if (ticketExitoso) {
                         MensajesVista.mostrarMensajeExito("Exito", "Se ha guardado tu ticket");
@@ -161,6 +218,10 @@ public class ControllerFormDireccionMetodoPago {
 
     public void setListaItems(List<ItemCardInterface> listaItems) {
         this.listaItems = listaItems;
+    }
+
+    public void setItem(ItemCardInterface itemCard) {
+        this.itemCard = itemCard;
     }
 
 }

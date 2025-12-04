@@ -11,11 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.example.puntoventamascotas.DAO.ConexionMsql;
-import org.example.puntoventamascotas.DAO.ProductosDAO;
-import org.example.puntoventamascotas.Models.ItemCardInterface;
-import org.example.puntoventamascotas.Models.Producto;
-import org.example.puntoventamascotas.Models.TipoProducto;
+import org.example.puntoventamascotas.DAO.*;
+import org.example.puntoventamascotas.Models.*;
 import org.example.puntoventamascotas.Util.MensajesVista;
 
 import java.io.File;
@@ -27,28 +24,62 @@ public class ControllerProductos {
     @FXML TextField txtStock;
     @FXML ImageView imgSubir;
     @FXML ComboBox<String> comboBoxTipoProducto;
+    @FXML ComboBox<String> comboBoxCategoriaProducto;
+    @FXML ComboBox<String> comboBoxAreaProducto;
     @FXML Button btnGuardar;
-    String tipoProducto;
+    String tipoProductoCombo;
+    String areaCombo;
+    String categoriaCombo;
     Producto productos;
     ProductosDAO productosDAO;
+    CategoriaProductoDAO categoriaProductoDAO;
+    TipoProductoDAO tipoProductoDAO;
+    AreaDAO areaDAO;
     String nombreImagen = "";
     boolean banderaRegistrar = false;
+    Area area;
+    CategoriaProducto categoriaProducto;
+    TipoProducto tipoProducto;
+
 
 
     public ControllerProductos() {
         this.productosDAO = new ProductosDAO(ConexionMsql.getConnection());
+        this.areaDAO = new AreaDAO(ConexionMsql.getConnection());
+        this.categoriaProductoDAO = new CategoriaProductoDAO(ConexionMsql.getConnection());
+        this.tipoProductoDAO = new TipoProductoDAO(ConexionMsql.getConnection());
     }
 
     //metodo initialize======================================================================================================
     @FXML
     public void initialize(){
-        comboBoxTipoProducto.getItems().addAll("Alimento",
-                                                     "Higiene",
-                                                     "Accesorio");
-        comboBoxTipoProducto.valueProperty().addListener((observable, oldValue, newValue) -> {
-            tipoProducto = newValue.toString();
-            System.out.println(tipoProducto);
+        /*Aqui se empieza a leer los combobox para el llenado se usa una consulta a la base de datos y se
+        * asigna al atrubito de cada "= newValue.toString" lo puse asi ya que se repite en los 3 combobox*/
+        for (Area a : areaDAO.obtenerAreas()) {
+            comboBoxAreaProducto.getItems().add(a.getNombreArea());
+        }
+        comboBoxAreaProducto.valueProperty().addListener((observable, oldValue, newValue) -> {
+            areaCombo = newValue.toString();
+            area = areaDAO.obtenerAreaByNombre(areaCombo);
+            comboBoxCategoriaProducto.getItems().clear();
+            for(CategoriaProducto c : categoriaProductoDAO.obtenerCategoriasByArea(area.getIdArea())) {
+                comboBoxCategoriaProducto.getItems().add(c.getNombreCategoria());
+            }
         });
+
+        comboBoxCategoriaProducto.valueProperty().addListener((observable, oldValue, newValue) -> {
+            categoriaCombo = newValue.toString();
+            categoriaProducto = categoriaProductoDAO.obtenerCategoriaProductoByNombreAndIdArea(categoriaCombo, area.getIdArea());
+            comboBoxTipoProducto.getItems().clear();
+            for(TipoProducto tipProd : tipoProductoDAO.obtenerTiposProductoByIdTipoProducto(categoriaProducto.getIdCategoriaProducto())){
+                comboBoxTipoProducto.getItems().add(tipProd.getNombreTipoProducto());
+            }
+        });
+        comboBoxTipoProducto.valueProperty().addListener((observable, oldValue, newValue) -> {
+            tipoProductoCombo = newValue.toString();
+            tipoProducto = productosDAO.obtenerTipoProductoByNombreAndIdCategoria(tipoProductoCombo, categoriaProducto.getIdCategoriaProducto());
+        });
+
     }
 
     //metodo para cerrar la ventana actual===================================================================================================
@@ -62,16 +93,27 @@ public class ControllerProductos {
     //descripcion de las otras cards
     public void setData(ItemCardInterface item){
         productos = (Producto)item;
-        TipoProducto tipoProductoConsulta = productosDAO.obtenerNombreTipoProductoPorId(productos.getIdTipo());
+        tipoProducto = tipoProductoDAO.obtenerNombreTipoProductoPorId(productos.getIdTipo());
+        categoriaProducto = categoriaProductoDAO.obtenerCategoriaById(tipoProducto.getCategoriaProducto());
+        area = areaDAO.obtenerAreaNombreById(categoriaProducto.getIdArea());
         //asignarle todos los valores que tiene el card al formulario
         txtNombre.setText(productos.getNombre());
         txtDescripcion.setText(productos.getDescripcion());
         txtPrecio.setText("" + productos.getPrecio());
         txtStock.setText("" + productos.getStock());
         //con esta linea se obtiene el nombre del tipo de producto de acuerdo al nombre de tipo producto
-        comboBoxTipoProducto.getSelectionModel().select(tipoProductoConsulta.getNombreTipoProducto());
+        tipoProductoCombo = tipoProducto.getNombreTipoProducto();
+        areaCombo = area.getNombreArea();
+        categoriaCombo = categoriaProducto.getNombreCategoria();
+        /*categoriaProducto = categoriaProductoDAO.obtenerCategoriaProductoByNombreAndIdArea(categoriaCombo, area.getIdArea());
+        comboBoxTipoProducto.getItems().clear();
+        for(TipoProducto tipProd : tipoProductoDAO.obtenerTiposProductoByIdTipoProducto(categoriaProducto.getIdCategoriaProducto())){
+            comboBoxTipoProducto.getItems().add(tipProd.getNombreTipoProducto());
+        }*/
+        comboBoxTipoProducto.getSelectionModel().select(tipoProducto.getNombreTipoProducto());
+        comboBoxCategoriaProducto.getSelectionModel().select(categoriaProducto.getNombreCategoria());
+        comboBoxAreaProducto.getSelectionModel().select(area.getNombreArea());
         //pasarle el nombre por la consulta
-        tipoProducto = tipoProductoConsulta.getNombreTipoProducto();
         //try catch para cargar tambien la imagen y por si no se encuentra la imagen, muestra una por defecto
         try{
             imgSubir.setImage(new Image(getClass().getResourceAsStream("/Imagenes/" + item.getImagen())));
@@ -107,27 +149,31 @@ public class ControllerProductos {
     @FXML
     public void updateProducto(){
         Producto productoModificado;
-        //Se necesitó crear un metodo para obtener el id de tipoProducto segun el nombre del tipoProducto (Alimentos)
-        TipoProducto idTipoProducto = productosDAO.obtenerTipoProductoByNombre(tipoProducto);
         if(banderaRegistrar){
-            //aqui comienza el registro-------------------------------------------------------------------------------
-            //aqui no se necesita el id porque es autoincrement entonces se añade solo
-            productoModificado = new Producto(
-                    txtNombre.getText(),
-                    txtDescripcion.getText(),
-                    Double.parseDouble(txtPrecio.getText()),
-                    Integer.parseInt(txtStock.getText()),
-                    /*Si el usuario no selecciona ninguna imagen entonces vamos a regresar el nombre
-                     * de la imagen que ya existe en la DB y si ingresa una nueva imagen, dicho
-                     * nombre de imagen se pondrá en la DB*/
-                    nombreImagen.equals("") ? productos.getImagen() : nombreImagen,
-                    //aqui solo se manda el id al modelo de producto porque es lo que se necesita en la BD
-                    idTipoProducto.getIdTipoProducto()
-            );
-            if(productosDAO.insertarProducto(productoModificado)){
-                MensajesVista.mostrarMensajeExito("Exito", "Producto añadido con éxito");
-            }else{
-                MensajesVista.mostrarMensajeError("Error", "No se pudo añadir el producto");
+            boolean sonCamposVacios = sonVacios(txtNombre, txtPrecio, txtStock);
+            if(sonCamposVacios){
+                MensajesVista.mostrarMensajeError("Error", "Los campos de nombre, precio, stock, tipo de producto e imagen son obligatorios");
+            }else {
+                //aqui comienza el registro-------------------------------------------------------------------------------
+                //aqui no se necesita el id porque es autoincrement entonces se añade solo
+                productoModificado = new Producto(
+                        txtNombre.getText(),
+                        txtDescripcion.getText(),
+                        Double.parseDouble(txtPrecio.getText()),
+                        Integer.parseInt(txtStock.getText()),
+                        /*Si el usuario no selecciona ninguna imagen entonces vamos a regresar el nombre
+                         * de la imagen que ya existe en la DB y si ingresa una nueva imagen, dicho
+                         * nombre de imagen se pondrá en la DB*/
+                        nombreImagen.equals("") ? productos.getImagen() : nombreImagen,
+                        //aqui solo se manda el id al modelo de producto porque es lo que se necesita en la BD
+                        tipoProducto.getIdTipoProducto()
+                );
+                if (productosDAO.insertarProducto(productoModificado)) {
+                    MensajesVista.mostrarMensajeExito("Exito", "Producto añadido con éxito");
+                    limpiarCampos();
+                } else {
+                    MensajesVista.mostrarMensajeError("Error", "No se pudo añadir el producto");
+                }
             }
         //Aqui termina el registro--------------------------------------------------------------------------------------------------
         }else {
@@ -139,7 +185,7 @@ public class ControllerProductos {
                     Double.parseDouble(txtPrecio.getText()),
                     Integer.parseInt(txtStock.getText()),
                     //aqui solo se manda el id al modelo de producto porque es lo que se necesita en la BD
-                    idTipoProducto.getIdTipoProducto(),
+                    tipoProducto.getIdTipoProducto(),
                     /*Si el usuario no selecciona ninguna imagen entonces vamos a regresar el nombre
                      * de la imagen que ya existe en la DB y si ingresa una nueva imagen, dicho
                      * nombre de imagen se pondrá en la DB*/
@@ -159,4 +205,29 @@ public class ControllerProductos {
         banderaRegistrar = vamohRegistrar;
         btnGuardar.setText("Registrar");
     }
+
+    public boolean sonVacios(TextField txtNombre, TextField txtPrecio, TextField txtStock){
+        if(txtNombre.getText().isEmpty() || txtPrecio.getText().isEmpty() || txtStock.getText().isEmpty()
+           || comboBoxTipoProducto.getValue() == null || imgSubir.getImage() == null) {
+            return true;
+        }
+        return false;
+    }
+
+    //metodo para cerrar la venta actual despues de guardar una mascota
+    public void cerrarVenatanActual() {
+        Stage stage = (Stage) btnGuardar.getScene().getWindow(); // btnGuardar o cualquier nodo de tu ventana
+        stage.close();
+    }
+
+    //metodo para limpiar los campos despues de registrar
+    public void limpiarCampos(){
+        txtNombre.clear();
+        txtPrecio.clear();
+        txtPrecio.clear();
+        txtStock.clear();
+        comboBoxTipoProducto.getSelectionModel().clearSelection();
+        imgSubir.setImage(null);
+    }
+
 }

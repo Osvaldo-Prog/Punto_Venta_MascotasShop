@@ -64,26 +64,49 @@
                 </Button>
             <HBox alignment="CENTER" prefHeight="37.0" prefWidth="251.0" spacing="90.0">
                <children>
-                  <Button fx:id="botonSalir" mnemonicParsing="false" onAction="#cerrarVentanaActual" prefHeight="25.0" prefWidth="56.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to left, mediumpurple, hotpink); -fx-border-color: red; -fx-border-radius: 20;" text="Salir">
+                  <Button fx:id="botonSalir" mnemonicParsing="false" onAction="#cerrarVentanaActual" prefHeight="27.0" prefWidth="91.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to left, mediumpurple, hotpink); -fx-border-color: red; -fx-border-radius: 20;" text="Salir">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" rotate="180.0" />
+                     </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to left, mediumpurple, pink); -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Detalles Ventas">
+                  <Button mnemonicParsing="false" onAction="#abrirTablaVentas" prefHeight="27.0" prefWidth="137.0" style="-fx-background-color: linear-gradient(to left, mediumpurple, pink); -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Detalles Ventas">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                      <graphic>
-                        <FontAwesomeIcon glyphName="CIRCLE-INFO" />
+                        <FontAwesomeIcon glyphName="INFO_CIRCLE" />
                      </graphic>
                   </Button>
                </children>
                <VBox.margin>
                   <Insets bottom="1.0" />
                </VBox.margin>
+            </HBox>
+            <HBox prefHeight="48.0" prefWidth="287.0" spacing="70.0">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#abrirTopProductos" prefHeight="27.0" prefWidth="131.0" style="-fx-background-color: linear-gradient(to right, mediumpurple, pink); -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Top Productos">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon glyphName="FLAG" />
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#abrirTopMascotas" prefHeight="27.0" prefWidth="140.0" style="-fx-background-color: linear-gradient(to right, mediumpurple, pink); -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" text="Top Mascotas">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon glyphName="FLAG" />
+                     </graphic>
+                  </Button>
+               </children>
             </HBox>
          </children>
          <opaqueInsets>

@@ -5,18 +5,16 @@ public class TipoProducto {
     private int idTipoProducto;
     private String nombreTipoProducto;
     private String descripcion;
-    private int idArea;
     private int idCategoriaProducto;
 
     //constructor vacio
     public TipoProducto(){}
 
     //constructor con parametros
-    public TipoProducto(int idTipoProducto, String nombreTipoProducto, String descripcion, int idArea, int idCategoriaProducto) {
+    public TipoProducto(int idTipoProducto, String nombreTipoProducto, String descripcion, int idCategoriaProducto) {
         this.idTipoProducto = idTipoProducto;
         this.nombreTipoProducto = nombreTipoProducto;
         this.descripcion = descripcion;
-        this.idArea = idArea;
         this.idCategoriaProducto = idCategoriaProducto;
     }
 
@@ -49,14 +47,6 @@ public class TipoProducto {
         this.descripcion = descripcion;
     }
 
-    //get y set del objeto de area
-    public int getArea() {
-        return idArea;
-    }
-
-    public void setArea(int idArea) {
-        this.idArea = idArea;
-    }
 
     //get y set del objeto de categoria del producto
     public int getCategoriaProducto() {
@@ -74,7 +64,6 @@ public class TipoProducto {
                 "idTipoProducto=" + idTipoProducto +
                 ", nombreTipoProducto='" + nombreTipoProducto + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", area=" + idArea +
                 ", categoriaProducto=" + idCategoriaProducto +
                 '}';
     }

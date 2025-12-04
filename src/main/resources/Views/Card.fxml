@@ -10,12 +10,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="VboxCard" prefHeight="260.0" prefWidth="183.0" spacing="5.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCard">
+<VBox fx:id="VboxCard" prefHeight="300.0" prefWidth="183.0" spacing="5.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCard">
     <children>
-        <Label fx:id="labelNombre" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="247.0" text="NombreMascota" underline="true" wrapText="true">
-         <font>
-            <Font size="14.0" />
-         </font></Label>
+      <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="181.0">
+         <children>
+            <Button fx:id="btnEliminarDeCarrito" mnemonicParsing="false" prefHeight="13.0" prefWidth="16.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+              <Label fx:id="labelNombre" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="247.0" text="NombreMascota" underline="true" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
       <HBox fx:id="hBoxDeLaImagen" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
               <ImageView fx:id="imageView" fitHeight="93.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +41,10 @@
       </HBox>
         <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="231.0" spacing="20.0">
             <children>
-                <Button fx:id="botonInfo" mnemonicParsing="false" text="Informacion" />
+                <Button fx:id="botonInfo" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <graphic>
+                  <FontAwesomeIcon fill="#1e00ff" glyphName="INFO_CIRCLE" />
+               </graphic></Button>
             </children>
         </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -40,17 +57,17 @@
       <Label fx:id="labelStockProducto" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="stock" visible="false" />
       <HBox fx:id="hBoxBtnEdicion" alignment="CENTER" prefHeight="31.0" prefWidth="229.0" spacing="40.0">
          <children>
-            <Button fx:id="btnEdicion" mnemonicParsing="false">
+            <Button fx:id="btnEdicion" mnemonicParsing="false" style="-fx-background-color: orange; -fx-border-color: black;">
                <graphic>
                   <FontAwesomeIcon glyphName="PENCIL" />
                </graphic>
             </Button>
-            <Button fx:id="btnAgregarToCarrito" mnemonicParsing="false">
+            <Button fx:id="btnAgregarToCarrito" mnemonicParsing="false" style="-fx-background-color: #1E88E5; -fx-border-color: black;">
                <graphic>
-                  <FontAwesomeIcon glyphName="HEART" />
+                  <FontAwesomeIcon glyphName="SHOPPING_CART" />
                </graphic>
             </Button>
-            <Button fx:id="btnEliminar" mnemonicParsing="false">
+            <Button fx:id="btnEliminar" mnemonicParsing="false" style="-fx-background-color: red; -fx-border-color: black;">
                <graphic>
                   <FontAwesomeIcon glyphName="TRASH" />
                </graphic>

@@ -16,7 +16,11 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        /*Contraseña del admin: OsvaldoAdmin;  OsvaAdmin123!
+        /*String password = "Contraseña1!";
+        String passHash = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println("Contraseña hasheada: " + passHash);*/
+        /* Otro admin: AmbarAdmin; Ambar123!Osva
+        Contraseña del admin: OsvaldoAdmin;  OsvaAdmin123!
           Contraseña del cliente: OsvaldoCliente; Osvaldo123!*/
         // Ahora inicializas tu VistaPrincipal
         VistaPrincipal vistaPrincipal = new VistaPrincipal();
@@ -31,6 +35,6 @@ public class Main extends Application{
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch(args);   
     }
 }

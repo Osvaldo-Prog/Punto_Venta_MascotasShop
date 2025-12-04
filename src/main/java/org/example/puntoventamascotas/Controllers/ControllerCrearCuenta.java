@@ -27,13 +27,6 @@ public class ControllerCrearCuenta {
     final String contraseñaRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
     final Pattern contraseñaPattern = Pattern.compile(contraseñaRegex);
 
-
-
-    //constructor para establecer la conexion
-    public ControllerCrearCuenta() {
-        this.usuarioDAO = new UsuarioDAO(ConexionMsql.getConnection());
-    }
-
     //inicializar los componentes con el @FXML ya que vienen de scene builder (archivo VentanaCrearCuenta.fxml)
     @FXML private TextField textFieldNombreCompleto;
     @FXML private TextField textFieldNombreUsuario;
@@ -44,6 +37,13 @@ public class ControllerCrearCuenta {
     @FXML private TextField textFieldNumero;
     @FXML private Button btonCancelar;
     @FXML private Button botonRegistrarse;
+
+
+
+    //constructor para establecer la conexion
+    public ControllerCrearCuenta() {
+        this.usuarioDAO = new UsuarioDAO(ConexionMsql.getConnection());
+    }
 
 
     //metodo para cerrar la ventana actual=========================================================================

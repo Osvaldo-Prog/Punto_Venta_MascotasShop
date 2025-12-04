@@ -1,5 +1,7 @@
 package org.example.puntoventamascotas.DAO;
 
+import org.example.puntoventamascotas.Models.Area;
+import org.example.puntoventamascotas.Models.CategoriaProducto;
 import org.example.puntoventamascotas.Models.Producto;
 import org.example.puntoventamascotas.Models.TipoProducto;
 
@@ -44,14 +46,16 @@ public class ProductosDAO {
     }
 
     //metodo para obtener el id del tipo de producto segun el nombre
-    public TipoProducto obtenerTipoProductoByNombre(String nombre){
+    public TipoProducto obtenerTipoProductoByNombreAndIdCategoria(String nombre, int idCategoria){
         String sqlListar = "SELECT * FROM tipo_producto" +
-                           " WHERE nombre = ?;";
+                           " WHERE nombre = ?" +
+                           " and id_categoria = ?;";
         PreparedStatement stmtsTipoProducto = null;
         ResultSet rsTipoProducto = null;
         try{
             stmtsTipoProducto = conexion.prepareStatement(sqlListar);
             stmtsTipoProducto.setString(1, nombre);
+            stmtsTipoProducto.setInt(2, idCategoria);
             rsTipoProducto = stmtsTipoProducto.executeQuery();
             if(rsTipoProducto.next()){
                 TipoProducto tipoProducto = new TipoProducto();
@@ -68,33 +72,6 @@ public class ProductosDAO {
         }
     }
 
-    //este metodo es para traer el id del tipo de producto mediante el id que ya tiene seleccionado el producto
-    //se usa en el setData para asignarle los datos al formulario
-    public TipoProducto obtenerNombreTipoProductoPorId(int idTipoProducto){
-        String sql = "SELECT *" +
-                     " FROM tipo_producto" +
-                     " WHERE  id_tipo_producto = ?;";
-        PreparedStatement stmtsTipoProducto = null;
-        ResultSet rsTipoProducto = null;
-        try{
-            stmtsTipoProducto = conexion.prepareStatement(sql);
-            stmtsTipoProducto.setInt(1, idTipoProducto);
-            rsTipoProducto = stmtsTipoProducto.executeQuery();
-            if(rsTipoProducto.next()){
-                TipoProducto tipoProducto = new TipoProducto();
-                tipoProducto.setIdTipoProducto(rsTipoProducto.getInt("id_tipo_producto"));
-                tipoProducto.setNombreTipoProducto(rsTipoProducto.getString("nombre"));
-                tipoProducto.setDescripcion(rsTipoProducto.getString("descripcion"));
-                tipoProducto.setCategoriaProducto(rsTipoProducto.getInt("id_categoria"));
-                return tipoProducto;
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-
     //listar productos por el area==========================================================================================
     public List<Producto> listarProductosByArea(String area){
         List<Producto> productosLista = new ArrayList<>();
@@ -103,7 +80,8 @@ public class ProductosDAO {
                            " INNER JOIN tipo_producto on tipo_producto.id_tipo_producto = producto.id_tipo_producto" +
                            " Inner Join categoria_producto on categoria_producto.id_categoria = tipo_producto.id_categoria" +
                            " INNER JOIN area on area.id_area = categoria_producto.id_area" +
-                           " WHERE area.nombre = ?";
+                           " WHERE area.nombre = ?" +
+                           " ";
 
         PreparedStatement stmtsProductos = null;
         ResultSet rsProductos = null;
@@ -132,6 +110,8 @@ public class ProductosDAO {
 
 
     //Metodo para insertar un producto
+    //creo que aqui es donde se debe insertar la categoria de producto tambien
+    // pero se debe cambiar de nombre en la base de datos o mejor la eliminamos
     public boolean insertarProducto(Producto producto){
         String sql = "INSERT INTO producto(nombre, precio, descripcion, stock, imagen, id_tipo_producto)" +
                      " VALUES(?,?,?,?,?,?) ";
@@ -194,7 +174,7 @@ public class ProductosDAO {
         }
     }
 
-    //Metodo para obtener el la info del producto mediante el id que se selecciono en el card
+  /*  //Metodo para obtener el la info del producto mediante el id que se selecciono en el card
     public Producto obtenerInfoProducto(int idProducto){
         String sql = "SELECT * FROM producto" +
                      " WHERE id_producto = ?;";
@@ -223,7 +203,7 @@ public class ProductosDAO {
         }
         return null;
     }
-
+*/
     public boolean updateStock(int idProducto, int nuevoStock){
         String sql = "UPDATE producto" +
                      " SET stock = ?" +
@@ -239,5 +219,33 @@ public class ProductosDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    //Metodo para rankear los productos mas vendidos================================================================
+    public List<Producto> RankearProductosMasVendidos(){
+        List<Producto> productosRankeadosLista = new ArrayList<>();
+        String sql = "SELECT producto.imagen, SUM(detalle_venta.cantidad) as Total_Vendido_Productos" +
+                     " from detalle_venta" +
+                     " INNER JOIN item on item.id_item = detalle_venta.id_item" +
+                     " INNER JOIN producto on item.id_producto = producto.id_producto" +
+                     " WHERE item.id_producto IS NOT NULL" +
+                     " GROUP BY producto.imagen" +
+                     " ORDER BY Total_Vendido_Productos desc;";
+        PreparedStatement stmtsProducto = null;
+        ResultSet rsProductos = null;
+        try{
+            stmtsProducto = conexion.prepareStatement(sql);
+            rsProductos = stmtsProducto.executeQuery();
+            while (rsProductos.next()){
+                productosRankeadosLista.add(new Producto(
+                        rsProductos.getString("imagen"),
+                        rsProductos.getInt("Total_Vendido_Productos")
+                ));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return productosRankeadosLista;
     }
 }
