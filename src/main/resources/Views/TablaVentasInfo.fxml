@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="491.0" prefWidth="655.0" style="-fx-background-color: azure;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerTablaVentasInfo">
+   <children>
+      <ScrollPane fitToWidth="true" prefHeight="406.0" prefWidth="593.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
+         <content>
+            <TableView fx:id="tablaVentas" prefHeight="448.0" prefWidth="603.0" tableMenuButtonVisible="true">
+               <columns>
+                  <TableColumn fx:id="colIdVenta" prefWidth="75.0" text="ID de Venta" />
+                  <TableColumn fx:id="colNombrePersonal" prefWidth="110.0" text="Nombre Personal" />
+                  <TableColumn fx:id="colMetodoPago" prefWidth="114.0" text="Metodo de Pago" />
+                  <TableColumn fx:id="colIdDireccion" prefWidth="100.0" text="ID de Direccion" />
+                  <TableColumn fx:id="colFecha" prefWidth="132.0" text="Fecha Venta" />
+                  <TableColumn fx:id="colTotal" minWidth="0.0" prefWidth="53.0" text="Total" />
+               </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="615.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cargarDetalleVenta" text="Detalle" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

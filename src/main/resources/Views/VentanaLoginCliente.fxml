@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fx:id="scrollPaneMenuCliente" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="712.0" prefWidth="1235.0" style="-fx-background-color: azure;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControladorLoginCliente">
+  <content>
+    <AnchorPane fx:id="anchorPaneClienteMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="1080.0" style="-fx-background-color: azure;">
+         <children>
+            <Label fx:id="labelTituloCliente" alignment="TOP_CENTER" layoutX="211.0" layoutY="27.0" text="Bienvenido a PetNova" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+               <font>
+                  <Font name="Elephant" size="32.0" />
+               </font>
+            </Label>
+            <Button fx:id="botonCerrarSesion" layoutX="30.0" layoutY="34.0" mnemonicParsing="false" onAction="#cerrarVentanaInicio" prefHeight="30.0" prefWidth="102.0" style="-fx-background-radius: 10;" text="Cerrar sesión">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SIGN_OUT" rotate="180.0" wrappingWidth="11.809525489807129" />
+               </graphic></Button>
+            <ScrollPane fx:id="scrollPaneCards" fitToWidth="true" hbarPolicy="NEVER" layoutX="31.0" layoutY="162.0" prefHeight="495.0" prefWidth="1161.0" style="-fx-background-color: azure; -fx-border-color: black;">
+               <content>
+                  <FlowPane fx:id="flowPaneCard" hgap="15.0" prefHeight="493.0" prefWidth="1157.0" style="-fx-background-color: azure;" vgap="15.0">
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding></FlowPane>
+               </content>
+            </ScrollPane>
+            <Button layoutX="1077.0" layoutY="36.0" mnemonicParsing="false" onAction="#abrirCarrito" text="Ver Carrito">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SHOPPING_CART" />
+               </graphic></Button>
+            <HBox alignment="CENTER_LEFT" layoutX="-1.0" layoutY="88.0" prefHeight="50.0" prefWidth="1235.0" spacing="100.0" style="-fx-background-color: cornflowerblue; -fx-background-radius: 20;">
+               <children>
+                  <ComboBox fx:id="comboBoxMasc_Prod" prefWidth="150.0" promptText="Mascotas" style="-fx-background-radius: 10;" />
+                  <ComboBox fx:id="comboBoxTipoMasc_Prod" prefWidth="150.0" promptText="Area" style="-fx-background-radius: 10;" />
+               </children>
+               <padding>
+                  <Insets left="140.0" />
+               </padding>
+            </HBox>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>

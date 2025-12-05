@@ -12,7 +12,7 @@ public class ConexionMsql {
 
     //datos de la conexion
     public static Connection conexion = null;
-    private final String url = "jdbc:mysql://localhost:3306/punto_venta_mascotas";
+    private final String url = "jdbc:mysql://localhost:3306/punto_venta_mascotas_v2";
     private final String user = "root";
     private final String password = "OsvaldoMySQL2408";
 

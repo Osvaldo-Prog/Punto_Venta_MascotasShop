@@ -5,18 +5,29 @@ public class CategoriaProducto {
     private int idCategoriaProducto;
     private String nombreCategoria;
     private String descripcion;
+    private int idArea;
 
     //constructor vacio
     public CategoriaProducto(){}
 
     //constructor con parametros
-    public CategoriaProducto(int idCategoriaProducto, String nombreCategoria, String descripcion) {
+    public CategoriaProducto(int idCategoriaProducto, String nombreCategoria, String descripcion, int idArea) {
         this.idCategoriaProducto = idCategoriaProducto;
         this.nombreCategoria = nombreCategoria;
         this.descripcion = descripcion;
+        this.idArea = idArea;
     }
 
     //GETTERS Y SETTERS
+
+
+    public int getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
+    }
 
     //get y set de id de la categoria
     public int getIdCategoriaProducto() {

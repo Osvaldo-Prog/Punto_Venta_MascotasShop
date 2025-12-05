@@ -6,38 +6,41 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="VentanaCrearCuenta" prefHeight="520.0" prefWidth="400.0" style="-fx-background-color: burlywood;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCrearCuenta">
+<AnchorPane fx:id="VentanaCrearCuenta" prefHeight="549.0" prefWidth="497.0" style="-fx-background-color: dodgerblue;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerCrearCuenta">
    <children>
-      <TextField fx:id="textFieldNombreCompleto" layoutX="46.0" layoutY="82.0" prefHeight="25.0" prefWidth="309.0" promptText="Ingresa tu nombre completo...">
+      <Rectangle fx:id="rectanguloTituloCrearCuenta" arcHeight="5.0" arcWidth="5.0" fill="#70cbff" height="53.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="499.0" />
+      <TextField fx:id="textFieldNombreCompleto" layoutX="95.0" layoutY="93.0" prefHeight="25.0" prefWidth="309.0" promptText="Ingresa tu nombre completo...">
          <cursor>
             <Cursor fx:constant="DISAPPEAR" />
          </cursor>
       </TextField>
-      <Label fx:id="labelNombreCompleto" layoutX="152.0" layoutY="58.0" text="Nombre completo" />
-      <Label layoutX="137.0" layoutY="14.0" prefHeight="17.0" prefWidth="141.0" text="FORMULARIO">
+      <Label fx:id="labelNombreCompleto" layoutX="201.0" layoutY="76.0" text="Nombre completo" />
+      <Label fx:id="labelTituloCrearCuenta" layoutX="185.0" layoutY="21.0" prefHeight="17.0" prefWidth="141.0" text="FORMULARIO">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="textFieldNombreUsuario" layoutX="46.0" layoutY="148.0" prefHeight="25.0" prefWidth="309.0" promptText="Ingresa tu nombre de usuario...">
+      <TextField fx:id="textFieldNombreUsuario" layoutX="95.0" layoutY="159.0" prefHeight="25.0" prefWidth="309.0" promptText="Ingresa tu nombre de usuario...">
          <cursor>
             <Cursor fx:constant="DISAPPEAR" />
          </cursor>
       </TextField>
-      <Label fx:id="labelNombreUsuario" layoutX="152.0" layoutY="124.0" text="Nombre de usuario" />
-      <Button fx:id="btonCancelar" layoutX="46.0" layoutY="461.0" mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
-      <Button fx:id="botonRegistrarse" layoutX="281.0" layoutY="461.0" mnemonicParsing="false" onAction="#registrarUsuario" text="Registrarse" />
-      <Label fx:id="labelContraseña" layoutX="86.0" layoutY="201.0" text="Contraseña" />
-      <Label fx:id="labelConfirContraseña" layoutX="231.0" layoutY="201.0" text="Confirmar contraseña" />
-      <PasswordField fx:id="passFieldContraseña" layoutX="46.0" layoutY="228.0" prefHeight="25.0" prefWidth="140.0" promptText="Contraseña..." />
-      <PasswordField fx:id="passFieldConfirContraseña" layoutX="217.0" layoutY="228.0" prefHeight="25.0" prefWidth="140.0" promptText="Confirmar contraseña..." />
-      <TextField fx:id="textFieldCorreoElectronico" layoutX="46.0" layoutY="290.0" prefHeight="25.0" prefWidth="309.0" promptText="Correo electronico: example@gmail.com" />
-      <Label fx:id="labelCorreoElectronico" layoutX="155.0" layoutY="266.0" text="Correo electrónico" />
-      <Label fx:id="labelEdad" layoutX="81.0" layoutY="343.0" text="Edad" />
-      <TextField fx:id="textFieldEdad" layoutX="51.0" layoutY="368.0" prefHeight="25.0" prefWidth="87.0" promptText="Edad..." />
-      <TextField fx:id="textFieldNumero" layoutX="207.0" layoutY="368.0" promptText="Ingresa tu número..." />
-      <Label fx:id="labelNumero" layoutX="232.0" layoutY="343.0" text="Número de celular" />
+      <Label fx:id="labelNombreUsuario" layoutX="202.0" layoutY="142.0" text="Nombre de usuario" />
+      <Button fx:id="btonCancelar" layoutX="37.0" layoutY="474.0" mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
+      <Button fx:id="botonRegistrarse" layoutX="392.0" layoutY="474.0" mnemonicParsing="false" onAction="#procesarRegistro" text="Registrarse" />
+      <Label fx:id="labelContraseña" layoutX="135.0" layoutY="204.0" text="Contraseña" />
+      <Label fx:id="labelConfirContraseña" layoutX="279.0" layoutY="204.0" text="Confirmar contraseña" />
+      <PasswordField fx:id="passFieldContraseña" layoutX="95.0" layoutY="221.0" prefHeight="25.0" prefWidth="140.0" promptText="Contraseña..." />
+      <PasswordField fx:id="passFieldConfirContraseña" layoutX="266.0" layoutY="221.0" prefHeight="25.0" prefWidth="140.0" promptText="Confirmar contraseña..." />
+      <TextField fx:id="textFieldCorreoElectronico" layoutX="96.0" layoutY="310.0" prefHeight="25.0" prefWidth="309.0" promptText="Correo electronico: example@gmail.com" />
+      <Label fx:id="labelCorreoElectronico" layoutX="201.0" layoutY="293.0" text="Correo electrónico" />
+      <Label fx:id="labelEdad" layoutX="130.0" layoutY="354.0" text="Edad" />
+      <TextField fx:id="textFieldEdad" layoutX="100.0" layoutY="379.0" prefHeight="25.0" prefWidth="87.0" promptText="Edad..." />
+      <TextField fx:id="textFieldNumero" layoutX="256.0" layoutY="379.0" promptText="Ingresa tu número..." />
+      <Label fx:id="labelNumero" layoutX="287.0" layoutY="354.0" text="Número de celular" />
+      <Label fx:id="labelCaracteristicasPassw" layoutX="37.0" layoutY="246.0" prefHeight="17.0" prefWidth="434.0" text="min. 8 caracteres, mayus, minus y 1 caracter especial permitidos {@$!%*?&amp;#}" />
    </children>
 </AnchorPane>

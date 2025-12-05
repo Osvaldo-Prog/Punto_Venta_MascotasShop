@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="795.0" spacing="50.0" style="-fx-background-color: #0e1619;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.puntoventamascotas.Controllers.ControllerRankingPopularVentas">
+   <padding>
+      <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+   </padding>
+   <children>
+      <AnchorPane prefHeight="554.0" prefWidth="914.0" HBox.hgrow="ALWAYS">
+         <children>
+            <VBox alignment="CENTER" layoutX="14.0" layoutY="44.0" prefHeight="170.0" prefWidth="185.0" style="-fx-background-color: #222d30; -fx-background-radius: 10;">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" prefHeight="18.0" prefWidth="185.0" text="TOP 1" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon fill="#e2dc2c" glyphName="TROPHY" />
+                     </graphic>
+                  </Label>
+                  <ImageView fx:id="img1" fitHeight="115.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label fx:id="lblVendidas1" alignment="CENTER" prefHeight="17.0" prefWidth="204.0" text="Vendidas" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="264.0" layoutY="44.0" prefHeight="170.0" prefWidth="185.0" style="-fx-background-color: #222d30; -fx-background-radius: 10;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="255.0" text="TOP 2" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon fill="#727272" glyphName="STAR" />
+                     </graphic>
+                  </Label>
+                  <ImageView fx:id="img2" fitHeight="115.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblVendidas2" alignment="CENTER" prefHeight="17.0" prefWidth="238.0" text="Vendidas" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="397.0" layoutY="235.0" prefHeight="170.0" prefWidth="185.0" style="-fx-background-color: #222d30; -fx-background-radius: 10;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="265.0" text="TOP 5" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="img5" fitHeight="115.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblVendidas5" alignment="CENTER" prefHeight="20.0" prefWidth="236.0" text="Vendidas" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="142.0" layoutY="235.0" prefHeight="170.0" prefWidth="185.0" style="-fx-background-color: #222d30; -fx-background-radius: 10;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="216.0" text="TOP 4" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="img4" fitHeight="115.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblVendidas4" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="Vendidas" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="526.0" layoutY="44.0" prefHeight="170.0" prefWidth="185.0" style="-fx-background-color: #222d30; -fx-background-radius: 10;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="258.0" text="TOP 3" textFill="#fdfdfd">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon fill="#9b5d00" glyphName="STAR" />
+                     </graphic>
+                  </Label>
+                  <ImageView fx:id="img3" fitHeight="115.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblVendidas3" alignment="CENTER" prefHeight="17.0" prefWidth="246.0" text="Vendidas" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <Label fx:id="lblTitulo" alignment="CENTER" prefHeight="17.0" prefWidth="725.0" text="Titulo" textFill="WHITE">
+               <font>
+                  <Font name="Bell MT Bold" size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

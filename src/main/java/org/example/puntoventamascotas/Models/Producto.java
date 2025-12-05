@@ -1,26 +1,61 @@
 package org.example.puntoventamascotas.Models;
 
-public class Producto {
+public class Producto implements ItemCardInterface{
     //inicializacion de atributos/varables
     private int idProducto;
     private String nombre;
     private String descripcion;
     private double precio;
     private int stock;
+    private String imagen;
     private int idTipoProducto;
+    int cantidad = 1;
 
     //construcor vacio
     public Producto(){}
 
-    //constructor con para.
-    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto) {
+    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, String imagen, int idTipoProducto) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
+        this.imagen = imagen;
         this.idTipoProducto = idTipoProducto;
     }
+
+    //constructor con para actualizar
+    public Producto(int idProducto, String nombre, String descripcion, double precio, int stock, int idTipoProducto, String imagen) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.imagen = imagen;
+        this.idTipoProducto = idTipoProducto;
+    }
+
+    //constructor para que registre
+    public Producto(String nombre, String descripcion, double precio, int stock, String imagen, int idTipoProducto) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.imagen = imagen;
+        this.idTipoProducto = idTipoProducto;
+    }
+
+    public Producto(int idProducto, String nombre, String imagen) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.imagen = imagen;
+    }
+
+    public Producto(String imagen, int cantidad) {
+        this.imagen = imagen;
+        this.cantidad = cantidad;
+    }
+
 
     //GETTERS Y SETTERS
 
@@ -33,7 +68,13 @@ public class Producto {
         this.idProducto = idProducto;
     }
 
+    @Override
+    public int getId() {
+        return idProducto;
+    }
+
     //get y set del nombre del producto
+    @Override
     public String getNombre() {
         return nombre;
     }
@@ -52,6 +93,7 @@ public class Producto {
     }
 
     //get y set del precio
+    @Override
     public double getPrecio() {
         return precio;
     }
@@ -69,13 +111,38 @@ public class Producto {
         this.stock = stock;
     }
 
-    //get y set del objeto del tipo de producto al que corresponde
-    public int getTipoProducto() {
-        return idTipoProducto;
+    //getter y setter de imagen
+
+    @Override
+    public String getImagen() {
+        return imagen;
     }
 
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    //get y set del objeto del tipo de producto al que corresponde
+
+    public int getIdTipo() {
+        return idTipoProducto;
+    }
     public void setTipoProducto(int idTipoProducto) {
         this.idTipoProducto = idTipoProducto;
+    }
+
+    //este metodo es sobre la interface y es para que detecte si es producto al igual uno para mascota, por eso el return con el nombre
+    @Override
+    public String getTipo() {
+        return "Producto";
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     //metodo toString
@@ -87,7 +154,8 @@ public class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precio=" + precio +
                 ", stock=" + stock +
-                ", tipoProducto=" + idTipoProducto +
+                ", imagen='" + imagen + '\'' +
+                ", idTipoProducto=" + idTipoProducto +
                 '}';
     }
 }
