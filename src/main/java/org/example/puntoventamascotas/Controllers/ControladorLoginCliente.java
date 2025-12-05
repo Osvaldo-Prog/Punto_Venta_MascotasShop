@@ -38,8 +38,6 @@ public class ControladorLoginCliente {
 
     //inicializacion de los nodos de fxml
     @FXML
-    private Label labelPrecioBeagle;
-    @FXML
     private ComboBox<String> comboBoxMasc_Prod;
     @FXML
     private ComboBox<String> comboBoxTipoMasc_Prod;
@@ -189,11 +187,13 @@ public class ControladorLoginCliente {
             controllerCard.setAddItemToCart(itemCard -> {
                 if (itemCard.getTipo().equals("Mascota")) {
                     MensajesVista.mostrarMensajeTemporal("Exito", "Mascota añadida al carrito", 550);
-                    /*el metodo stream() es de las listas y recorre la lista
-                    El anyMatch tiene una condicion y cuando se cumple termina y devuelve true*/
+                    /*el metodo stream() es de las listas y recorre la lista,
+                    * lo que hace es buscar en la lista una mascota cuyo id sea igual al id del itemCard.
+                     si la encuentra, la guarda en un Optional*/
                     Optional<Mascota> mascotaEncontrada = carritoMascotas.obtenerItems().stream()
                             .filter(mascota -> mascota.getId() == itemCard.getId())
                             .findFirst();
+                    //esto quiere decir que si la mascota ya esta en la lista, solo cambie la cantidad a +1
                     if (mascotaEncontrada.isPresent()) {
                         Mascota m = mascotaEncontrada.get();
                         m.setCantidad(m.getCantidad() + 1);
@@ -203,7 +203,12 @@ public class ControladorLoginCliente {
                         carritoMascotas.agregarItem((Mascota) itemCard);
                     }
                 } else if (itemCard.getTipo().equals("Producto")) {
-                    MensajesVista.mostrarMensajeTemporal("Exito", "Producto añadido al carrito", 550);
+                    Producto producto1 = (Producto) itemCard;
+                    if (producto1.getStock() <= 0) {
+                        MensajesVista.mostrarMensajeError("Error", "El producto no se encuentra en existencia ");
+                    } else {
+                        MensajesVista.mostrarMensajeTemporal("Exito", "Producto añadido al carrito", 550);
+                    }
                     //lo mismo aqui
                     Optional<Producto> productoEncontrado = carritoProductos.obtenerItems().stream()
                             .filter(producto -> producto.getId() == itemCard.getId())
@@ -219,19 +224,24 @@ public class ControladorLoginCliente {
 
 
             controllerCard.setOnComprar(itemCard -> {
-                try {
-                    FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/Views/FormularioDireccion&MetodoPago.fxml"));
-                    Parent root = loader2.load();
-                    ControllerFormDireccionMetodoPago controllerFormDireccionMetodoPago = loader2.getController();
-                    controllerFormDireccionMetodoPago.setUsuario(usuario);
-                    controllerFormDireccionMetodoPago.setData(itemCard.getPrecio());
-                    controllerFormDireccionMetodoPago.setItem(itemCard);
-                    Scene scene = new Scene(root);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                Producto producto = (Producto) itemCard;
+                if (producto.getStock() <= 0) {
+                    MensajesVista.mostrarMensajeError("Error", "El producto no se encuentra en existencia </3");
+                }else {
+                    try {
+                        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/Views/FormularioDireccion&MetodoPago.fxml"));
+                        Parent root = loader2.load();
+                        ControllerFormDireccionMetodoPago controllerFormDireccionMetodoPago = loader2.getController();
+                        controllerFormDireccionMetodoPago.setUsuario(usuario);
+                        controllerFormDireccionMetodoPago.setData(itemCard.getPrecio());
+                        controllerFormDireccionMetodoPago.setItem(itemCard);
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

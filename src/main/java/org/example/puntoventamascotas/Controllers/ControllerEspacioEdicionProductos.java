@@ -78,8 +78,6 @@ public class ControllerEspacioEdicionProductos {
                 controllerCardProductos.setOnEditar(itemCard -> {
                     System.out.println(itemCard);
                     try {
-                        /*No me muestra el formulario de edicion de productos*/
-
                         //se carga el fxmloader con la interfaz de formulario
                         FXMLLoader loaderProductosForms = new FXMLLoader(getClass().getResource("/Views/FormularioProductos.fxml"));
                         //esta parte es como decirle "Carga el archivo y muestralo"

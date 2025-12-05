@@ -44,7 +44,7 @@ public class ControllerCard {
     private Button btnAgregarToCarrito;
     @FXML
     private HBox hBoxBtnEdicion;
-    /* Estos Consumer son para delegador de acciones o funciones, en otras palabras
+    /* Estos Consumer son para delegador acciones o funciones, en otras palabras
     * mantiene el contexto de los objetos que se le pasan
     * estos nos ayudan para guardar la informacion del card seleccionado*/
     private Consumer<ItemCardInterface> onEdicion;
@@ -82,7 +82,9 @@ public class ControllerCard {
         }
 
         //pasa lo mismo que en el caso de arriba
+        /*Si el string es Administrador hace esto*/
         if (tipoUsuario.equals("Administrador")) {
+            /*Si el item es de tipo usuario, no mascota ni producto hace lo sig*/
             if (item.getTipo().equals("Usuario")) {
                 Usuario usuario = (Usuario) item;
                 btnAgregarToCarrito.setVisible(false);
@@ -97,6 +99,7 @@ public class ControllerCard {
                 imageView.setImage(new Image(getClass().getResourceAsStream("/Imagenes/user.png")));
                 labelStockProducto.setText(usuario.getCorreo());
             }
+            /*Estos ya van por defecto para los cards de productos y mascotas*/
             btnAgregarToCarrito.setVisible(false);
             btnEliminarDeCarrito.setVisible(false);
             botonComprar.setVisible(false);
@@ -106,8 +109,11 @@ public class ControllerCard {
         } else if (tipoUsuario.equals("Cliente")) {
             btnAgregarToCarrito.setVisible(true);
             btnEdicion.setVisible(false);
+            //este aqui no es visible porque se muestra en el menu principal
             btnEliminarDeCarrito.setVisible(false);
             btnEliminar.setVisible(false);
+            /*Si es un carrito entonces el boton
+            * de eliminar del carrito si es visible*/
         } else if (tipoUsuario.equals("Carrito")) {
             if (item.getTipo().equals("Mascota")) {
                 Mascota mascota = (Mascota) item;
@@ -122,13 +128,13 @@ public class ControllerCard {
             btnAgregarToCarrito.setVisible(false);
             botonComprar.setVisible(false);
             botonInfo.setVisible(false);
-            lblTelefono.setVisible(true);
             labelStockProducto.setVisible(false);
+            lblTelefono.setVisible(true);
         }
     }
 
     //este metodo se llama desde controllerEspacioEdicionMascotas y de productos
-    // ya que este dara la informacion de lo que contienen los cards======================================================================================
+    // ya que este dara la informacion de lo que contienen los cards, al igual que los demas======================================================================================
     public void setOnEditar(Consumer<ItemCardInterface> onEdicion) {
         this.onEdicion = onEdicion;
     }

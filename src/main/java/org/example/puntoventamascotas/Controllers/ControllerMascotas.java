@@ -84,6 +84,7 @@ public class ControllerMascotas {
         tipoMascota = tipoMascotaConsulta.getNombreTipoMascota();
         //try catch para cargar tambien la imagen y por si no se encuentra la imagen, muestra una por defecto
         try {
+            //pare este paso ocurre primero el metodo de cargar imagen de abajo
             System.out.println(item.getImagen());
             imgSubir.setImage(new Image(getClass().getResourceAsStream("/Imagenes/" + item.getImagen())));
         } catch (Exception e) {

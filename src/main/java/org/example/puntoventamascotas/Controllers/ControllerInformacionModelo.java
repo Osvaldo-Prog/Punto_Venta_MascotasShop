@@ -23,7 +23,7 @@ public class ControllerInformacionModelo {
     ControllerProductos controllerProductos;
 */
     public ControllerInformacionModelo(){
-        this.producto = new Producto();
+
     }
     /*public void setData(ItemCardInterface item){
         this.itemCard = item;
